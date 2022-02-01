@@ -67,7 +67,7 @@ const MovieDetail = ({ movie }) => {
                 {movie.poster && (
                     <>
                         <Image
-                            src={"/img.jpg"}
+                            src={movie.poster}
                             alt={movie.title}
                             layout="fill"
                             objectFit="contain"
