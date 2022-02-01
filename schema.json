@@ -1,0 +1,49 @@
+{
+    "type": "array",
+    "title": "FilteredMovie",
+    "items": {
+        "bsonType": "object",
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "score": {
+                "bsonType": "double"
+            },
+            "highlights": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "object",
+                    "properties": {
+                        "score": {
+                            "bsonType": "double"
+                        },
+                        "path": {
+                            "bsonType": "string"
+                        },
+                        "texts": {
+                            "bsonType": "array",
+                            "items": {
+                                "bsonType": "object",
+                                "properties": {
+                                    "value": {
+                                        "bsonType": "string"
+                                    },
+                                    "type": {
+                                        "bsonType": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "poster": {
+                "bsonType": "string"
+            },
+            "title": {
+                "bsonType": "string"
+            }
+        }
+    }
+}
