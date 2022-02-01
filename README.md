@@ -11,7 +11,9 @@ Open the project live on [StackBlitz](http://stackblitz.com/):
 Duplicate the file `.env.local.example-add-app-id-here` and name it: `.env.local`.
 Then change the `<APP_ID>` value to the app id of your Realm app.
 
-## Demo
+## Live Demo
+
+[This is what we will build!](https://atlas-search-mongoflix.vercel.app/)
 
 ## Atlas Cluster and Sample Data
 
