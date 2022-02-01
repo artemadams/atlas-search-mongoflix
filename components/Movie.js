@@ -41,7 +41,7 @@ const Movie = ({ movie, showDetail = true }) => {
                         <Highlighted text={movie.title} highlight={titleHighlight} />
                     </h3>
                     {showDetail && (
-                        <div>
+                        <>
                             {movie.year && movie.genres && (
                                 <>
                                     <h4 className="text-gray-600 text-sm font-medium">
@@ -66,7 +66,7 @@ const Movie = ({ movie, showDetail = true }) => {
                             <h4 className="text-gray-600 text-sm mt-2">
                                 <Highlighted text={movie.plot ?? ""} highlight={plotHighlight} />
                             </h4>
-                        </div>
+                        </>
                     )}
                 </div>
             </div>
