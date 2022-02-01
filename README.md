@@ -2,6 +2,10 @@
 
 MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/atlas/search), [Realm](https://www.mongodb.com/realm), [GraphQL](https://docs.mongodb.com/realm/graphql/) and so much more.
 
+## Live Demo
+
+[This is what we will build!](https://atlas-search-mongoflix.vercel.app/)
+
 ## Code with us
 
 Open the project live on [StackBlitz](http://stackblitz.com/):
@@ -10,10 +14,6 @@ Open the project live on [StackBlitz](http://stackblitz.com/):
 
 Duplicate the file `.env.local.example-add-app-id-here` and name it: `.env.local`.
 Then change the `<APP_ID>` value to the app id of your Realm app.
-
-## Live Demo
-
-[This is what we will build!](https://atlas-search-mongoflix.vercel.app/)
 
 ## Atlas Cluster and Sample Data
 

@@ -1,7 +1,8 @@
 import { Credentials, App } from "realm-web";
 
 const APP_ID = process.env.NEXT_PUBLIC_REALM_APP_ID;
-export const REALM_GRAPHQL_ENDPOINT = `https://eu-central-1.aws.realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
+const BASE_URL = "eu-central-1.aws.realm.mongodb.com";
+export const REALM_GRAPHQL_ENDPOINT = `https://${BASE_URL}/api/client/v2.0/app/${APP_ID}/graphql`;
 
 const app = new App({
     id: APP_ID,
@@ -34,9 +35,7 @@ export const autocompleteService = async (term) => {
         const credentials = Realm.Credentials.anonymous();
         try {
             const user = await app.logIn(credentials);
-            const searchAutoComplete = await user.functions.searchAutoComplete(
-                term
-            );
+            const searchAutoComplete = await user.functions.searchAutoComplete(term);
             setAutoComplete(() => searchAutoComplete);
         } catch (error) {
             console.error(error);

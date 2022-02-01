@@ -14,15 +14,12 @@ const Movie = ({ movie, showDetail = true }) => {
     const titleHighlight = getHighlightAtPath(movie.highlights, "title");
     const plotHighlight = getHighlightAtPath(movie.highlights, "plot");
     const genresHighlight = getHighlightAtPath(movie.highlights, "genres");
-    const countriesHighlight = getHighlightAtPath(
-        movie.highlights,
-        "countries"
-    );
+    const countriesHighlight = getHighlightAtPath(movie.highlights, "countries");
 
     return (
         <Link href={`/movies/${movie._id}`}>
             <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-2xl transition">
-                <div className="flex items-end justify-end h-96 w-full bg-cover relative">
+                <div className="flex items-end justify-end h-80 w-full bg-cover relative">
                     {movie.poster && (
                         <>
                             <Image
@@ -41,10 +38,7 @@ const Movie = ({ movie, showDetail = true }) => {
 
                 <div className="px-5 py-3 w-60">
                     <h3 className="text-gray-800 uppercase text-2xl font-semibold">
-                        <Highlighted
-                            text={movie.title}
-                            highlight={titleHighlight}
-                        />
+                        <Highlighted text={movie.title} highlight={titleHighlight} />
                     </h3>
                     {showDetail && (
                         <div>
@@ -63,19 +57,14 @@ const Movie = ({ movie, showDetail = true }) => {
                                 <>
                                     <h4 className="text-gray-600 text-sm font-medium">
                                         <Highlighted
-                                            text={
-                                                movie.countries.join(", ") ?? ""
-                                            }
+                                            text={movie.countries.join(", ") ?? ""}
                                             highlight={countriesHighlight}
                                         />
                                     </h4>
                                 </>
                             )}
                             <h4 className="text-gray-600 text-sm mt-2">
-                                <Highlighted
-                                    text={movie.plot ?? ""}
-                                    highlight={plotHighlight}
-                                />
+                                <Highlighted text={movie.plot ?? ""} highlight={plotHighlight} />
                             </h4>
                         </div>
                     )}

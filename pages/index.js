@@ -5,10 +5,7 @@ import Container from "../components/Container";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Movies from "../components/Movies";
-import {
-    generateAuthHeader,
-    REALM_GRAPHQL_ENDPOINT,
-} from "/services/RealmService";
+import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "/services/RealmService";
 import useSWR from "swr";
 import { request } from "graphql-request";
 
@@ -29,7 +26,7 @@ const getMovies = `
     }
 `;
 
-const fetcher = async (query) => {
+const fetcherMovies = async (query) => {
     const headers = await generateAuthHeader();
     return request(
         REALM_GRAPHQL_ENDPOINT,
@@ -43,7 +40,7 @@ const fetcher = async (query) => {
     );
 };
 
-const filteredMoviesQuery = `
+const getFilteredMovies = `
     query GetFilteredMovies($filter: FilteredMoviesInput!) {
         filteredMovies(input: $filter) {
             _id
@@ -71,18 +68,7 @@ const filteredMoviesQuery = `
 
 const fetcherFilteredMovies = async (query, filter) => {
     const headers = await generateAuthHeader();
-    return request(
-        REALM_GRAPHQL_ENDPOINT,
-        query,
-        {
-            filter: {
-                term: filter.term,
-                genres: filter.genres,
-                countries: filter.countries,
-            },
-        },
-        headers
-    );
+    return request(REALM_GRAPHQL_ENDPOINT, query, { filter: filter }, headers);
 };
 
 const handleError = () => {
@@ -91,33 +77,23 @@ const handleError = () => {
 };
 
 export default function Home() {
-    const emptyFilter = { term: "", genres: [], countries: [] };
-    const [filters, setFilters] = useState(emptyFilter);
+    const [filters, setFilters] = useState({ term: "", genres: [], countries: [] });
 
-    const response = useSWR(
-        [filteredMoviesQuery, filters],
-        fetcherFilteredMovies
-    );
-    console.log(response.data);
+    const response = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
     if (response.data && response.data.error) {
-        handleError();
+        return handleError();
     }
     const filteredMovies = response.data ? response.data.filteredMovies : [];
-    console.log(filteredMovies, "filter");
+    console.log(filteredMovies, "filtered");
 
-    const { data } = useSWR([getMovies], fetcher);
-
+    const { data } = useSWR([getMovies], fetcherMovies);
     if (data && data.error) {
-        console.error(data.error);
-        return <p>An error occurred: ${data.error}</p>;
+        return handleError();
     }
     const movies = data ? data.movies : [];
-    const genres = [...new Set(movies.map((e) => e.genres).flat())].sort(
-        (a, b) => a > b
-    );
-    const countries = [...new Set(movies.map((e) => e.countries).flat())].sort(
-        (a, b) => a > b
-    );
+
+    const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
+    const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
@@ -136,16 +112,10 @@ export default function Home() {
                     <Category
                         title="Movies"
                         subtitle={`${
-                            filteredMovies.length > 0
-                                ? filteredMovies.length
-                                : movies.length
+                            filteredMovies.length > 0 ? filteredMovies.length : movies.length
                         } Movies`}
                     />
-                    <Movies
-                        movies={
-                            filteredMovies.length > 0 ? filteredMovies : movies
-                        }
-                    />
+                    <Movies movies={filteredMovies.length > 0 ? filteredMovies : movies} />
                 </Container>
                 <Footer />
             </div>
