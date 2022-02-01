@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { SearchIcon } from "@heroicons/react/outline";
-import {
-    generateAuthHeader,
-    REALM_GRAPHQL_ENDPOINT,
-} from "../services/RealmService";
+import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "../services/RealmService";
 import useSWR from "swr";
 import { request } from "graphql-request";
 import Multiselect from "../components/Multiselect";
@@ -35,10 +32,7 @@ const Header = ({ genres, countries, filters, setFilters }) => {
         console.error(data.error);
         return <p>An error occurred: ${data.error}</p>;
     }
-    // console.log(data);
     const movieTitles = data ? data.autocompleteTitle : [];
-    // console.log(movieTitles);
-    // const movieTitles = [];
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -91,9 +85,9 @@ const Header = ({ genres, countries, filters, setFilters }) => {
                                 className="w-full border rounded-md pl-10 pr-4 py-2 focus:border-green-500 focus:outline-none focus:shadow-outline"
                                 type="text"
                                 placeholder="Search"
-                                onChange={(e) =>
-                                    onChangeSearchTerm(e.target.value)
-                                }
+                                onChange={(e) => onChangeSearchTerm(e.target.value)}
+                                onBlur={() => setIsAutocompleteOpen(false)}
+                                onFocus={() => setIsAutocompleteOpen(true)}
                                 value={searchTerm}
                             />
                         </form>
@@ -110,9 +104,7 @@ const Header = ({ genres, countries, filters, setFilters }) => {
                                         <li
                                             key={item._id}
                                             className="px-4 py-2 hover:bg-green-300 cursor-pointer"
-                                            onClick={() =>
-                                                handleSelect(item._id)
-                                            }
+                                            onClick={() => handleSelect(item._id)}
                                         >
                                             {item.title}
                                         </li>
