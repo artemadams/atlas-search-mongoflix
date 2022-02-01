@@ -3,13 +3,11 @@ import { useRouter } from "next/router";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import MovieDetail from "../../components/MovieDetail";
-import {
-    generateAuthHeader,
-    REALM_GRAPHQL_ENDPOINT,
-} from "../../services/RealmService";
+import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "../../services/RealmService";
 import useSWR from "swr";
 import { request } from "graphql-request";
 import HeaderBase from "../../components/HeaderBase";
+import { handleError } from "/pages/index";
 
 const getMovieById = `
     query GetMovie($queryInput: MovieQueryInput!) {
@@ -30,24 +28,14 @@ const getMovieById = `
 
 const fetcher = async (query, movieId) => {
     const headers = await generateAuthHeader();
-    return request(
-        REALM_GRAPHQL_ENDPOINT,
-        query,
-        { queryInput: { _id: movieId } },
-        headers
-    );
+    return request(REALM_GRAPHQL_ENDPOINT, query, { queryInput: { _id: movieId } }, headers);
 };
 
 const MovieDetails = () => {
     const { query } = useRouter();
     const { data } = useSWR([getMovieById, query.id], fetcher);
-    if (data && data.error) {
-        console.error(data.error);
-        return <p>An error occurred: ${data.error}</p>;
-    }
-    console.log(data);
-    const movie = data ? data.movie : null;
-    console.log(movie);
+    if (data?.error) return handleError(data.error);
+    const movie = data?.movie ?? null;
 
     return (
         <>

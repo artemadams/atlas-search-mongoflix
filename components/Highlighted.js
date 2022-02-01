@@ -1,7 +1,7 @@
 import React from "react";
 
 const Highlighted = ({ text = "", highlight = "" }) => {
-    if (!highlight.trim()) {
+    if (!highlight.trim() || highlight.includes("(") || highlight.includes(")")) {
         return <span>{text}</span>;
     }
     const regex = new RegExp(`(${highlight})`, "gi");

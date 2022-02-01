@@ -6,6 +6,7 @@ import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "../services/RealmSer
 import useSWR from "swr";
 import { request } from "graphql-request";
 import Multiselect from "../components/Multiselect";
+import { handleError } from "/pages/index";
 
 const autocompleteTitle = `
     query GetAutocompleteTitle($title: String!) {
@@ -28,11 +29,8 @@ const Header = ({ genres, countries, filters, setFilters }) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const { data } = useSWR([autocompleteTitle, searchTerm], fetcher);
-    if (data && data.error) {
-        console.error(data.error);
-        return <p>An error occurred: ${data.error}</p>;
-    }
-    const movieTitles = data ? data.autocompleteTitle : [];
+    if (data?.error) return handleError(data.error);
+    const movieTitles = data?.autocompleteTitle ?? [];
 
     const handleSubmit = (e) => {
         e.preventDefault();

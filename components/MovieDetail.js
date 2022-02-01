@@ -5,6 +5,7 @@ import Movie from "./Movie";
 import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "/services/RealmService";
 import useSWR from "swr";
 import { request } from "graphql-request";
+import { handleError } from "/pages/index";
 
 const getMoviesBy = `
     query GetMoviesBy($sortByInput: MovieSortByInput!, $queryInput: MovieQueryInput!, $limit: Int!) {
@@ -37,29 +38,20 @@ const fetcherMovies = async (query, input) => {
     );
 };
 
-const handleError = (error) => {
-    console.error(error);
-    return <p>An error occurred: ${error}</p>;
-};
-
 const MovieDetail = ({ movie }) => {
-    const responseLeadRole = useSWR(
+    const { data: dataLeadRole } = useSWR(
         [getMoviesBy, { cast_in: [movie.cast[0]], _id_ne: movie._id }],
         fetcherMovies
     );
-    if (responseLeadRole.data?.error) {
-        return handleError(responseLeadRole.data?.error);
-    }
-    const moviesLeadRole = responseLeadRole.data?.movies ?? [];
+    if (dataLeadRole?.error) return handleError(dataLeadRole.error);
+    const moviesLeadRole = dataLeadRole?.movies ?? [];
 
-    const responseDirector = useSWR(
+    const { data: responseDirector } = useSWR(
         [getMoviesBy, { directors_in: [movie.directors[0]], _id_ne: movie._id }],
         fetcherMovies
     );
-    if (responseDirector.data?.error) {
-        return handleError(responseDirector.data?.error);
-    }
-    const moviesDirectors = responseDirector.data?.movies ?? [];
+    if (responseDirector?.error) return handleError(responseDirector.error);
+    const moviesDirector = responseDirector?.movies ?? [];
 
     return (
         <div className="md:flex md:items-start">
@@ -95,32 +87,19 @@ const MovieDetail = ({ movie }) => {
                         <div className="flex overflow-x-auto space-x-8">
                             {moviesLeadRole.map((movie, index) => (
                                 <div className="flex-shrink-0">
-                                    <Movie
-                                        className=""
-                                        key={index}
-                                        movie={movie}
-                                        showDetail={false}
-                                    />
+                                    <Movie className="" key={index} movie={movie} showDetail={false} />
                                 </div>
                             ))}
                         </div>
                     </div>
                 )}
-                {moviesDirectors && (
+                {moviesDirector && (
                     <div>
-                        <Category
-                            title={`Directed by ${movie.directors[0]}`}
-                            subtitle="Also directed"
-                        />
+                        <Category title={`Directed by ${movie.directors[0]}`} subtitle="Also directed" />
                         <div className="flex overflow-x-auto space-x-8">
-                            {moviesDirectors.map((movie, index) => (
+                            {moviesDirector.map((movie, index) => (
                                 <div className="flex-shrink-0">
-                                    <Movie
-                                        className=""
-                                        key={index}
-                                        movie={movie}
-                                        showDetail={false}
-                                    />
+                                    <Movie className="" key={index} movie={movie} showDetail={false} />
                                 </div>
                             ))}
                         </div>

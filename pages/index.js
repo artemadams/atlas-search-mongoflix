@@ -71,7 +71,7 @@ const fetcherFilteredMovies = async (query, filter) => {
     return request(REALM_GRAPHQL_ENDPOINT, query, { filter: filter }, headers);
 };
 
-const handleError = (error) => {
+export const handleError = (error) => {
     console.error(error);
     return <p>An error occurred: ${error}</p>;
 };
@@ -79,18 +79,13 @@ const handleError = (error) => {
 export default function Home() {
     const [filters, setFilters] = useState({ term: "", genres: [], countries: [] });
 
-    const responseFiltered = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
-    if (responseFiltered.data?.error) {
-        return handleError(responseFiltered.data?.error);
-    }
-    const filteredMovies = responseFiltered.data?.filteredMovies ?? [];
-    console.log(filteredMovies, "filtered");
+    const { data: dataFiltered } = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
+    if (dataFiltered?.error) return handleError(error);
+    const filteredMovies = dataFiltered?.filteredMovies ?? [];
 
-    const responseMovies = useSWR([getMovies], fetcherMovies);
-    if (responseMovies.data?.error) {
-        return handleError(responseMovies.data?.error);
-    }
-    const movies = responseMovies.data?.movies ?? [];
+    const { data: dataMovies } = useSWR([getMovies], fetcherMovies);
+    if (dataMovies?.error) return handleError(dataMovies.error);
+    const movies = dataMovies?.movies ?? [];
 
     const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
     const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
@@ -102,12 +97,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="bg-white w-full min-h-screen">
-                <Header
-                    genres={genres}
-                    countries={countries}
-                    filters={filters}
-                    setFilters={setFilters}
-                />
+                <Header genres={genres} countries={countries} filters={filters} setFilters={setFilters} />
                 <Container>
                     <Category
                         title="Movies"
