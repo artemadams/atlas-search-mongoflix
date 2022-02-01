@@ -67,11 +67,13 @@ const MovieDetail = ({ movie }) => {
                 {movie.poster && (
                     <>
                         <Image
-                            src={movie.poster}
+                            src={"/img.jpg"}
                             alt={movie.title}
                             layout="fill"
                             objectFit="contain"
                             className="z-0 rounded"
+                            blurDataURL="https://source.unsplash.com/random/1920x1080"
+                            placeholder="blur"
                         />
                     </>
                 )}
@@ -79,7 +81,9 @@ const MovieDetail = ({ movie }) => {
             <div className="w-full mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
                 <h3 className="text-gray-700 text-3xl font-medium block">{movie.title}</h3>
                 <h4 className="text-gray-500 mt-2 text-xl font-medium block">
-                    {`${movie.year} - ${movie.genres.join(", ")} - (${movie.countries.join(", ")})`}
+                    {`${movie.year} - ${movie.genres?.join(", ") ?? ""} - (${
+                        movie.countries?.join(", ") ?? ""
+                    })`}
                 </h4>
                 <div className="text-gray-500 mt-5 text-base">{movie.fullplot}</div>
                 {moviesLeadRole && (
