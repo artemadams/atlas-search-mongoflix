@@ -71,26 +71,26 @@ const fetcherFilteredMovies = async (query, filter) => {
     return request(REALM_GRAPHQL_ENDPOINT, query, { filter: filter }, headers);
 };
 
-const handleError = () => {
-    console.error(response.data.error);
-    return <p>An error occurred: ${response.data.error}</p>;
+const handleError = (error) => {
+    console.error(error);
+    return <p>An error occurred: ${error}</p>;
 };
 
 export default function Home() {
     const [filters, setFilters] = useState({ term: "", genres: [], countries: [] });
 
-    const response = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
-    if (response.data && response.data.error) {
-        return handleError();
+    const responseFiltered = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
+    if (responseFiltered.data?.error) {
+        return handleError(responseFiltered.data?.error);
     }
-    const filteredMovies = response.data ? response.data.filteredMovies : [];
+    const filteredMovies = responseFiltered.data?.filteredMovies ?? [];
     console.log(filteredMovies, "filtered");
 
-    const { data } = useSWR([getMovies], fetcherMovies);
-    if (data && data.error) {
-        return handleError();
+    const responseMovies = useSWR([getMovies], fetcherMovies);
+    if (responseMovies.data?.error) {
+        return handleError(responseMovies.data?.error);
     }
-    const movies = data ? data.movies : [];
+    const movies = responseMovies.data?.movies ?? [];
 
     const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
     const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
