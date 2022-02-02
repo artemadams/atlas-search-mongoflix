@@ -40,7 +40,7 @@ Then change the `<APP_ID>` value to the app id of your Realm app.
 
 ## Realm GraphQL Schema Generation
 
-## Implement Autocomplete Function
+### Implement Autocomplete Function
 
 ```js
 exports = async (title) => {
@@ -69,11 +69,11 @@ exports = async (title) => {
 };
 ```
 
-## Create Custome Resolver for Autocomplete
+### Create Custome Resolver for Autocomplete
 
 ### Input Type
 
-## Implement Highlight Search Function
+### Implement Highlight Search Function
 
 ```js
 exports = async (input) => {
@@ -267,4 +267,58 @@ exports = async (input) => {
         }
     }
 }
+```
+
+## Facets
+
+### Facets Search Index Creation
+
+```json
+{
+    "mappings": {
+        "dynamic": true,
+        "fields": {
+            "title": [
+                {
+                    "dynamic": true,
+                    "type": "document"
+                },
+                {
+                    "type": "autocomplete"
+                }
+            ]
+        }
+    }
+}
+```
+
+### Implement Facets Search Function
+
+```js
+exports = async (arg) => {
+    const collection = context.services.get("mongodb-atlas").db("sample_mflix").collection("movies");
+
+    return await collection.aggregate([
+        {
+            $searchMeta: {
+                index: "facets",
+
+                facet: {
+                    operator: {
+                        range: {
+                            path: "year",
+                            gte: 2000,
+                        },
+                    },
+                    facets: {
+                        genresFacet: {
+                            type: "string",
+                            path: "genres",
+                        },
+                    },
+                },
+            },
+        },
+    ]);
+};
 ```
