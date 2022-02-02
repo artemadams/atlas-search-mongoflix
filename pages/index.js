@@ -96,7 +96,7 @@ export default function Home() {
                 <title>MongoFlix</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className="bg-white w-full min-h-screen">
+            <div className="bg-gray-100 w-full min-h-screen">
                 <Header genres={genres} countries={countries} filters={filters} setFilters={setFilters} />
                 <Container>
                     <Category

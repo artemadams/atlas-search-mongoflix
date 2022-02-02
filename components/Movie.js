@@ -18,10 +18,39 @@ const Movie = ({ movie, showDetail = true }) => {
 
     return (
         <Link href={`/movies/${movie._id}`}>
-            <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-2xl transition">
+            <div className="bg-white w-full max-w-sm mx-auto rounded-xl shadow-xl overflow-hidden cursor-pointer hover:shadow-2xl transition relative">
+                {/* <Image
+                    src={"/"}
+                    alt={movie.title}
+                    layout="fill"
+                    objectFit="contain"
+                    className="z-0 rounded"
+                    blurDataURL="https://source.unsplash.com/random/1920x1080"
+                    placeholder="blur"
+                />
+                {movie.poster && (
+                    <Image
+                        src={"/"}
+                        alt={movie.title}
+                        layout="fill"
+                        objectFit="cover"
+                        className="absolute -z-10 scale-[3]"
+                        blurDataURL={movie.poster}
+                        placeholder="blur"
+                    />
+                )} */}
                 <div className="flex items-end justify-end h-80 w-full bg-cover relative">
                     {movie.poster && (
                         <>
+                            <Image
+                                src={"/"}
+                                alt={movie.title}
+                                layout="fill"
+                                objectFit="cover"
+                                className="absolute z-0 scale-125"
+                                blurDataURL={movie.poster}
+                                placeholder="blur"
+                            />
                             <Image
                                 src={movie.poster}
                                 alt={movie.title}
@@ -36,7 +65,7 @@ const Movie = ({ movie, showDetail = true }) => {
                     </button>
                 </div>
 
-                <div className="px-5 py-3 w-60">
+                <div className="px-5 py-3 relative">
                     <h3 className="text-gray-800 uppercase text-2xl font-semibold">
                         <Highlighted text={movie.title} highlight={titleHighlight} />
                     </h3>

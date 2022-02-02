@@ -55,9 +55,18 @@ const MovieDetail = ({ movie }) => {
 
     return (
         <div className="md:flex md:items-start">
-            <div className="w-full h-96 md:w-1/2 lg:h-96 relative">
+            <div className="w-full h-96 md:w-1/2 lg:h-screen relative">
                 {movie.poster && (
                     <>
+                        <Image
+                            src={"/"}
+                            alt={movie.title}
+                            layout="fill"
+                            objectFit="cover"
+                            className="absolute z-0 scale-125"
+                            blurDataURL={"https://source.unsplash.com/random/1920x1080"}
+                            placeholder="blur"
+                        />
                         <Image
                             src={movie.poster}
                             alt={movie.title}

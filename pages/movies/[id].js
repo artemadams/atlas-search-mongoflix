@@ -45,7 +45,7 @@ const MovieDetails = () => {
                         <title>MongoFlix - {movie.title}</title>
                         <link rel="icon" href="/favicon.ico" />
                     </Head>
-                    <div className="bg-white w-full min-h-screen">
+                    <div className="bg-gray-100 w-full min-h-screen">
                         <HeaderBase />
                         <Container>
                             <MovieDetail movie={movie} />
