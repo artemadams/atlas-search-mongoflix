@@ -71,6 +71,27 @@ const fetcherFilteredMovies = async (query, filter) => {
     return request(REALM_GRAPHQL_ENDPOINT, query, { filter: filter }, headers);
 };
 
+const getFacetsGenres = `
+    query GetFacetsGenres {
+        facetsGenres {
+            count
+            facet {
+                genresFacet {
+                    buckets {
+                        _id
+                        count
+                    }
+                }
+            }
+        }
+    }
+`;
+
+const fetcherFacetsGenres = async (query) => {
+    const headers = await generateAuthHeader();
+    return request(REALM_GRAPHQL_ENDPOINT, query, null, headers);
+};
+
 export const handleError = (error) => {
     console.error(error);
     return <p>An error occurred: ${error}</p>;
@@ -86,6 +107,11 @@ export default function Home() {
     const { data: dataMovies } = useSWR([getMovies], fetcherMovies);
     if (dataMovies?.error) return handleError(dataMovies.error);
     const movies = dataMovies?.movies ?? [];
+
+    const { data: dataFacets } = useSWR([getFacetsGenres], fetcherFacetsGenres);
+    if (dataFacets?.error) return handleError(dataFacets.error);
+    const countByGenre = dataFacets?.facetsGenres ?? [];
+    console.log(countByGenre[0]?.facet.genresFacet.buckets);
 
     const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
     const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
