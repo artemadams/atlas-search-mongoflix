@@ -38,6 +38,9 @@ Then change the `<APP_ID>` value to the app id of your Realm app.
 }
 ```
 
+In your cluster on _Atlas_ in the _Search_ tab, create a new index with the name `default` and the above JSON.
+![Atlas Search First Index](/docs/add-index-autocomplete.png?raw=true "Atlas Search First Index")
+
 ## Realm GraphQL Schema Generation
 
 ### Implement Autocomplete Function
@@ -291,6 +294,9 @@ exports = async (input) => {
     }
 }
 ```
+
+In your cluster on _Atlas_ in the _Search_ tab, create a new index with the name `facets` and the above JSON.
+![Atlas Search First Index](/docs/add-index-autocomplete.png?raw=true "Atlas Search First Index")
 
 ### Implement Facets Search Function
 
