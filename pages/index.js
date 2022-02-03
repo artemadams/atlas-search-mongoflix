@@ -115,11 +115,8 @@ export default function Home() {
 
     const { data: dataFacets } = useSWR([getFacetsGenres], fetcherFacetsGenres);
     if (dataFacets?.error) return handleError(dataFacets.error);
-    const countByGenre = dataFacets?.facetsGenres ?? [];
-    console.log(countByGenre[0]?.facet.genresFacet.buckets.map((e) => e._id));
+    const genresWithCount = dataFacets?.facetsGenres[0]?.facet.genresFacet.buckets ?? [];
 
-    // const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
-    const genres = testGenres;
     const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
 
     return (
@@ -129,7 +126,12 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="bg-gray-100 w-full min-h-screen">
-                <Header genres={genres} countries={countries} filters={filters} setFilters={setFilters} />
+                <Header
+                    genresWithCount={genresWithCount}
+                    countries={countries}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
                 <Container>
                     <Category
                         title="Movies"

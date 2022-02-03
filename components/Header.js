@@ -23,7 +23,7 @@ const fetcher = async (query, term) => {
     return request(REALM_GRAPHQL_ENDPOINT, query, { title: term }, headers);
 };
 
-const Header = ({ genres, countries, filters, setFilters }) => {
+const Header = ({ genresWithCount, countries, filters, setFilters }) => {
     const router = useRouter();
     const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
@@ -54,8 +54,8 @@ const Header = ({ genres, countries, filters, setFilters }) => {
         setFilters({ ...filters, term: term });
     };
 
-    const updateFilterGenres = (genres) => {
-        setFilters({ ...filters, genres: genres });
+    const updateFilterGenres = (genresWithCount) => {
+        setFilters({ ...filters, genres: genresWithCount });
     };
 
     const updateFilterCountries = (countries) => {
@@ -113,13 +113,17 @@ const Header = ({ genres, countries, filters, setFilters }) => {
                     </div>
 
                     <Multiselect
-                        items={genres}
+                        items={genresWithCount.map((e) => {
+                            return { title: e._id, subtitle: e.count };
+                        })}
                         selectedItems={filters.genres}
                         setSelectedItems={updateFilterGenres}
                         placeholder="Select Genres"
                     />
                     <Multiselect
-                        items={countries}
+                        items={countries.map((e) => {
+                            return { title: e, subtitle: null };
+                        })}
                         selectedItems={filters.countries}
                         setSelectedItems={updateFilterCountries}
                         placeholder="Select Countries"
