@@ -103,7 +103,7 @@ export const handleError = (error) => {
 };
 
 export default function Home() {
-    const [filters, setFilters] = useState({ term: "", genres: ["Drama"], countries: [] });
+    const [filters, setFilters] = useState({ term: "", genres: [], countries: [] });
 
     const { data: dataFiltered } = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
     if (dataFiltered?.error) return handleError(error);
