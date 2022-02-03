@@ -8,6 +8,7 @@ import Movies from "../components/Movies";
 import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "/services/RealmService";
 import useSWR from "swr";
 import { request } from "graphql-request";
+import { testGenres } from "/services/testData";
 
 const getMovies = `
     query GetMovies($sortByInput: MovieSortByInput!, $queryInput: MovieQueryInput!, $limit: Int!) {
@@ -26,14 +27,18 @@ const getMovies = `
     }
 `;
 
-const fetcherMovies = async (query) => {
+const fetcherMovies = async (query, filter) => {
     const headers = await generateAuthHeader();
     return request(
         REALM_GRAPHQL_ENDPOINT,
         query,
         {
             sortByInput: "METACRITIC_DESC",
-            queryInput: { poster_exists: true },
+            queryInput: {
+                poster_exists: true,
+                genres_in: filter.genres.length > 0 ? filter.genres : undefined,
+                countries_in: filter.countries.length > 0 ? filter.countries : undefined,
+            },
             limit: 50,
         },
         headers
@@ -98,22 +103,23 @@ export const handleError = (error) => {
 };
 
 export default function Home() {
-    const [filters, setFilters] = useState({ term: "", genres: [], countries: [] });
+    const [filters, setFilters] = useState({ term: "", genres: ["Drama"], countries: [] });
 
     const { data: dataFiltered } = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
     if (dataFiltered?.error) return handleError(error);
     const filteredMovies = dataFiltered?.filteredMovies ?? [];
 
-    const { data: dataMovies } = useSWR([getMovies], fetcherMovies);
+    const { data: dataMovies } = useSWR([getMovies, filters], fetcherMovies);
     if (dataMovies?.error) return handleError(dataMovies.error);
     const movies = dataMovies?.movies ?? [];
 
     const { data: dataFacets } = useSWR([getFacetsGenres], fetcherFacetsGenres);
     if (dataFacets?.error) return handleError(dataFacets.error);
     const countByGenre = dataFacets?.facetsGenres ?? [];
-    console.log(countByGenre[0]?.facet.genresFacet.buckets);
+    console.log(countByGenre[0]?.facet.genresFacet.buckets.map((e) => e._id));
 
-    const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
+    // const genres = [...new Set(movies.map((e) => e.genres).flat())].sort((a, b) => a > b);
+    const genres = testGenres;
     const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
 
     return (
