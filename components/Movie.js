@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PlayIcon } from "@heroicons/react/outline";
@@ -15,6 +15,8 @@ const Movie = ({ movie, showDetail = true }) => {
     const plotHighlight = getHighlightAtPath(movie.highlights, "plot");
     const genresHighlight = getHighlightAtPath(movie.highlights, "genres");
     const countriesHighlight = getHighlightAtPath(movie.highlights, "countries");
+
+    const [isErrorLoadingImage, setIsErrorLoadingImage] = useState(false);
 
     return (
         <Link href={`/movies/${movie._id}`}>
@@ -48,7 +50,11 @@ const Movie = ({ movie, showDetail = true }) => {
                                 layout="fill"
                                 objectFit="cover"
                                 className="absolute z-0 scale-125"
-                                blurDataURL={movie.poster}
+                                blurDataURL={
+                                    !isErrorLoadingImage
+                                        ? movie.poster
+                                        : "https://source.unsplash.com/random/1920x1080"
+                                }
                                 placeholder="blur"
                             />
                             <Image
@@ -57,6 +63,7 @@ const Movie = ({ movie, showDetail = true }) => {
                                 layout="fill"
                                 objectFit="contain"
                                 className="absolute z-0"
+                                onError={() => setIsErrorLoadingImage(true)}
                             />
                         </>
                     )}
