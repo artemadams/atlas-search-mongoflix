@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { PlayIcon } from "@heroicons/react/outline";
 import Highlighted from "./Highlighted";
@@ -24,7 +24,25 @@ const Movie = ({ movie, showDetail = true }) => {
                 <div className="flex items-end justify-end h-80 w-full bg-cover relative">
                     {movie.poster && (
                         <>
-                            <Image
+                            <span className="h-80 w-full relative overflow-hidden">
+                                <img
+                                    src={"https://source.unsplash.com/random/1920x1080"}
+                                    alt={"blur bg"}
+                                    className="absolute min-w-full max-w-full max-h-full blur-md object-contain -z-10 scale-[3]"
+                                ></img>
+                                <img
+                                    src={movie.poster}
+                                    alt={movie.title}
+                                    className="absolute min-w-full max-w-full max-h-full blur-md object-contain -z-10 scale-[3]"
+                                ></img>
+                            </span>
+                            <img
+                                src={movie.poster}
+                                alt={movie.title}
+                                className="absolute min-w-full max-w-full max-h-full z-10 object-contain"
+                            ></img>
+                            {/* alternative for next/image */}
+                            {/* <Image
                                 src={"/"}
                                 alt={movie.title}
                                 layout="fill"
@@ -44,7 +62,7 @@ const Movie = ({ movie, showDetail = true }) => {
                                 objectFit="contain"
                                 className="absolute z-0"
                                 onError={() => setIsErrorLoadingImage(true)}
-                            />
+                            /> */}
                         </>
                     )}
                     <button className="absolute z-10 p-2 rounded-full bg-green-600 text-white mx-5 -mb-4 hover:bg-green-500 focus:outline-none focus:bg-green-500">
