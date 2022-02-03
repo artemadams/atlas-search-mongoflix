@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 
-const Multiselect = ({
-    items,
-    selectedItems,
-    setSelectedItems,
-    placeholder,
-}) => {
+const Multiselect = ({ items, selectedItems, setSelectedItems, placeholder }) => {
     // state showing if dropdown is open or closed
     const [dropdown, setDropdown] = useState(false);
 
@@ -31,7 +26,7 @@ const Multiselect = ({
                     <div className="w-full">
                         <div className="flex flex-col items-center relative">
                             <div className="w-full">
-                                <div className="p-1 flex border border-gray-200 bg-white rounded ">
+                                <div className="p-1 flex border border-gray-200 bg-white rounded focus-within:border-green-500 focus-within:outline-none focus-within: :shadow-outline">
                                     <div className="flex flex-auto flex-wrap">
                                         {selectedItems.map((tag, index) => {
                                             return (
@@ -43,11 +38,7 @@ const Multiselect = ({
                                                         {tag}
                                                     </div>
                                                     <div className="flex flex-auto flex-row-reverse">
-                                                        <div
-                                                            onClick={() =>
-                                                                removeTag(tag)
-                                                            }
-                                                        >
+                                                        <div onClick={() => removeTag(tag)}>
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                 width="100%"
@@ -60,18 +51,8 @@ const Multiselect = ({
                                                                 strokeLinejoin="round"
                                                                 className="feather feather-x cursor-pointer hover:text-teal-400 rounded-full w-4 h-4 ml-2"
                                                             >
-                                                                <line
-                                                                    x1="18"
-                                                                    y1="6"
-                                                                    x2="6"
-                                                                    y2="18"
-                                                                ></line>
-                                                                <line
-                                                                    x1="6"
-                                                                    y1="6"
-                                                                    x2="18"
-                                                                    y2="18"
-                                                                ></line>
+                                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                                <line x1="6" y1="6" x2="18" y2="18"></line>
                                                             </svg>
                                                         </div>
                                                     </div>
