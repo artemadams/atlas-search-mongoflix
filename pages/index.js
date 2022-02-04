@@ -134,7 +134,7 @@ export default function Home() {
                 />
                 <Container>
                     <Category
-                        title="Movies"
+                        title="Movie Search"
                         subtitle={`${
                             filteredMovies.length > 0 ? filteredMovies.length : movies.length
                         } Movies`}
