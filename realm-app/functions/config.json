@@ -1,14 +1,14 @@
 [
     {
-        "name": "autocompleteTitle",
-        "private": false
-    },
-    {
         "name": "filteredMoviesResolver",
         "private": false
     },
     {
         "name": "genresFacets",
+        "private": false
+    },
+    {
+        "name": "autocompleteTitle",
         "private": false
     }
 ]
