@@ -25,5 +25,5 @@ jobs:
     - run: git config --global pull.rebase false
     - run: git add -A .
     - run: git commit -am "🤖 static site build"
-    - run: git pull origin dev --allow-unrelated-histories
+    - run: git pull origin dev --allow-unrelated-histories --strategy=ours
     - run: git push origin HEAD:dev
