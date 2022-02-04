@@ -16,9 +16,7 @@ jobs:
     - run: npm ci
     - run: npm install -g next
     - run: touch .env.local
-    - run: printf "$APP_ID" >> .env.local
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
+    - run: printf "${{ secrets.APP_ID }}" >> .env.local
     - run: cat .env.local
     - run: npm run build
     - run: next export -o realm-app/hosting/files
