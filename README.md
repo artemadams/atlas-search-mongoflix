@@ -6,6 +6,8 @@ MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/
 
 [This is what we will build!](https://atlas-search-mongoflix.vercel.app/)
 
+[Also available on Realm as a static site!](https://application-0-kjasg.mongodbstitch.com/)
+
 ## Code with us
 
 Open the project live on [StackBlitz](http://stackblitz.com/):
