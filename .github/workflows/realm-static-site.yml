@@ -17,7 +17,8 @@ jobs:
     - run: npm ci
     - run: npm install -g next
     - run: touch .env.local
-    - run: echo "NEXT_PUBLIC_REALM_APP_ID=$APP_ID" >> .env.local
+    - run: echo "NEXT_PUBLIC_REALM_APP_ID=$env:APP_ID" >> .env.local
+    - run: cat .env.local
     - run: npm run build
     - run: next export -o realm-app/hosting/files
     - run: git config --global user.name 'Artem Adams'
