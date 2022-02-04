@@ -1,0 +1,165 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "awards": {
+            "bsonType": "object",
+            "properties": {
+                "nominations": {
+                    "bsonType": "int"
+                },
+                "text": {
+                    "bsonType": "string"
+                },
+                "wins": {
+                    "bsonType": "int"
+                }
+            }
+        },
+        "cast": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "countries": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "directors": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "fullplot": {
+            "bsonType": "string"
+        },
+        "genres": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "imdb": {
+            "bsonType": "object",
+            "properties": {
+                "id": {
+                    "bsonType": "int"
+                },
+                "rating": {
+                    "bsonType": "double"
+                },
+                "votes": {
+                    "bsonType": "int"
+                }
+            }
+        },
+        "languages": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "lastupdated": {
+            "bsonType": "string"
+        },
+        "metacritic": {
+            "bsonType": "int"
+        },
+        "num_mflix_comments": {
+            "bsonType": "int"
+        },
+        "plot": {
+            "bsonType": "string"
+        },
+        "poster": {
+            "bsonType": "string"
+        },
+        "rated": {
+            "bsonType": "string"
+        },
+        "released": {
+            "bsonType": "date"
+        },
+        "runtime": {
+            "bsonType": "int"
+        },
+        "title": {
+            "bsonType": "string"
+        },
+        "tomatoes": {
+            "bsonType": "object",
+            "properties": {
+                "boxOffice": {
+                    "bsonType": "string"
+                },
+                "consensus": {
+                    "bsonType": "string"
+                },
+                "critic": {
+                    "bsonType": "object",
+                    "properties": {
+                        "meter": {
+                            "bsonType": "int"
+                        },
+                        "numReviews": {
+                            "bsonType": "int"
+                        },
+                        "rating": {
+                            "bsonType": "double"
+                        }
+                    }
+                },
+                "dvd": {
+                    "bsonType": "date"
+                },
+                "fresh": {
+                    "bsonType": "int"
+                },
+                "lastUpdated": {
+                    "bsonType": "date"
+                },
+                "production": {
+                    "bsonType": "string"
+                },
+                "rotten": {
+                    "bsonType": "int"
+                },
+                "viewer": {
+                    "bsonType": "object",
+                    "properties": {
+                        "meter": {
+                            "bsonType": "int"
+                        },
+                        "numReviews": {
+                            "bsonType": "int"
+                        },
+                        "rating": {
+                            "bsonType": "double"
+                        }
+                    }
+                },
+                "website": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "type": {
+            "bsonType": "string"
+        },
+        "writers": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "year": {
+            "bsonType": "int"
+        }
+    },
+    "title": "movie"
+}

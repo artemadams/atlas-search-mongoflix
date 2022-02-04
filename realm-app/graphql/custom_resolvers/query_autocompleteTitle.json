@@ -1,0 +1,9 @@
+{
+    "field_name": "autocompleteTitle",
+    "function_name": "autocompleteTitle",
+    "input_type": "string",
+    "input_type_format": "scalar",
+    "on_type": "Query",
+    "payload_type": "Movie",
+    "payload_type_format": "generated-list"
+}

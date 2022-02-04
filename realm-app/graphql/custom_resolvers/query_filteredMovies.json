@@ -1,0 +1,110 @@
+{
+    "field_name": "filteredMovies",
+    "function_name": "filteredMoviesResolver",
+    "input_type": {
+        "properties": {
+            "countries": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "string"
+                }
+            },
+            "genres": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "string"
+                }
+            },
+            "term": {
+                "bsonType": "string"
+            }
+        },
+        "title": "FilteredMoviesInput",
+        "type": "object"
+    },
+    "input_type_format": "custom",
+    "on_type": "Query",
+    "payload_type": {
+        "items": {
+            "bsonType": "object",
+            "properties": {
+                "_id": {
+                    "bsonType": "objectId"
+                },
+                "cast": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "string"
+                    }
+                },
+                "countries": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "string"
+                    }
+                },
+                "directors": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "string"
+                    }
+                },
+                "fullplot": {
+                    "bsonType": "string"
+                },
+                "genres": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "string"
+                    }
+                },
+                "highlights": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "object",
+                        "properties": {
+                            "path": {
+                                "bsonType": "string"
+                            },
+                            "score": {
+                                "bsonType": "double"
+                            },
+                            "texts": {
+                                "bsonType": "array",
+                                "items": {
+                                    "bsonType": "object",
+                                    "properties": {
+                                        "type": {
+                                            "bsonType": "string"
+                                        },
+                                        "value": {
+                                            "bsonType": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "plot": {
+                    "bsonType": "string"
+                },
+                "poster": {
+                    "bsonType": "string"
+                },
+                "score": {
+                    "bsonType": "double"
+                },
+                "title": {
+                    "bsonType": "string"
+                },
+                "year": {
+                    "bsonType": "int"
+                }
+            }
+        },
+        "title": "FilteredMovies",
+        "type": "array"
+    },
+    "payload_type_format": "custom"
+}

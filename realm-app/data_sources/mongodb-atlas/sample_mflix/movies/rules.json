@@ -1,0 +1,16 @@
+{
+    "collection": "movies",
+    "database": "sample_mflix",
+    "roles": [
+        {
+            "name": "default",
+            "apply_when": {},
+            "read": true,
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}

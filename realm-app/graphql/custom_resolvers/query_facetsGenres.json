@@ -1,0 +1,43 @@
+{
+    "field_name": "facetsGenres",
+    "function_name": "genresFacets",
+    "input_type_format": "",
+    "on_type": "Query",
+    "payload_type": {
+        "items": {
+            "bsonType": "object",
+            "properties": {
+                "count": {
+                    "bsonType": "double"
+                },
+                "facet": {
+                    "bsonType": "object",
+                    "properties": {
+                        "genresFacet": {
+                            "bsonType": "object",
+                            "properties": {
+                                "buckets": {
+                                    "bsonType": "array",
+                                    "items": {
+                                        "bsonType": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "bsonType": "string"
+                                            },
+                                            "count": {
+                                                "bsonType": "double"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "title": "GenresMeta",
+        "type": "array"
+    },
+    "payload_type_format": "custom"
+}
