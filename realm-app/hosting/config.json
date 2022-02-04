@@ -1,6 +1,4 @@
 {
     "enabled": true,
-    "app_default_domain": "application-0-kjasg.mongodbstitch.com",
-    "default_response_code": 200,
-    "default_error_path": "/index.html"
+    "app_default_domain": "application-0-kjasg.mongodbstitch.com"
 }
