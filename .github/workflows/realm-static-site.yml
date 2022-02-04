@@ -1,0 +1,25 @@
+name: Node build static site with next and output to realm dir
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 17
+    - run: npm ci
+    - run: npm install -g next
+    - run: npm run build
+    - run: next export -o realm-app/hosting/files
+    - run: git config --global user.name 'Artem Adams'
+    - run: git config --global user.email 'artemadams@users.noreply.github.com'
+    - run: git config --global pull.rebase false
+    - run: git add -A .
+    - run: git commit -am "🤖 static site build"
+    - run: git pull origin dev --allow-unrelated-histories
+    - run: git push origin HEAD:dev
