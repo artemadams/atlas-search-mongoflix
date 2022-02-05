@@ -1,5 +1,5 @@
 import React from "react";
-// import Image from "next/image";
+import Image from "next/image";
 import Category from "./Category";
 import Movie from "./Movie";
 import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "/services/RealmService";
@@ -58,18 +58,7 @@ const MovieDetail = ({ movie }) => {
             <div className="w-full h-96 md:w-1/2 lg:h-screen relative overflow-hidden">
                 {movie.poster && (
                     <>
-                        <img
-                            src={movie.poster}
-                            alt={movie.title}
-                            className="absolute min-w-full max-w-full max-h-full z-10 blur-md scale-[3]"
-                        ></img>
-                        <img
-                            src={movie.poster}
-                            alt={movie.title}
-                            className="absolute min-w-full max-w-full max-h-full z-10 object-contain"
-                        ></img>
-                        {/* alternative for next/image */}
-                        {/* <Image
+                        <Image
                             src={"/"}
                             alt={movie.title}
                             layout="fill"
@@ -86,7 +75,7 @@ const MovieDetail = ({ movie }) => {
                             className="z-0 rounded"
                             blurDataURL="https://source.unsplash.com/random/1920x1080"
                             placeholder="blur"
-                        /> */}
+                        />
                     </>
                 )}
             </div>
