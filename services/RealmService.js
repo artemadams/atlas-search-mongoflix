@@ -29,9 +29,7 @@ export const generateAuthHeader = async () => {
 
 export const autocompleteService = async (term) => {
     if (term.length) {
-        // add your Realm App Id to the .env.local file
-        const REALM_APP_ID = process.env.NEXT_PUBLIC_REALM_APP_ID;
-        const app = new Realm.App({ id: REALM_APP_ID });
+        const app = new Realm.App({ id: APP_ID });
         const credentials = Realm.Credentials.anonymous();
         try {
             const user = await app.logIn(credentials);
@@ -46,10 +44,8 @@ export const autocompleteService = async (term) => {
 };
 
 export const getAllMovies = async () => {
-    // add your Realm App Id to the .env.local file
-    const REALM_APP_ID = process.env.NEXT_PUBLIC_REALM_APP_ID;
     const app = new Realm.App({
-        id: REALM_APP_ID,
+        id: APP_ID,
         baseUrl: REALM_GRAPHQL_ENDPOINT,
     });
     const credentials = Realm.Credentials.anonymous();

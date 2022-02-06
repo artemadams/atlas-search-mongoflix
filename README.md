@@ -4,7 +4,7 @@ MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/
 
 ## Live Demo
 
-[This is what we will build!](https://atlas-search-mongoflix.vercel.app/)
+[This is what we will build!](https://atlas-search-mongoflix-ybbwzbv7l-artemadams.vercel.app/)
 
 [Also available on Realm as a static site!](https://application-0-kjasg.mongodbstitch.com/)
 
