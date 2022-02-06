@@ -96,12 +96,16 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                             <div className="status"> Fetching data...</div>
                         )} */}
                         {movieTitles.length > 0 && isAutocompleteOpen && (
-                            <ul className="absolute inset-x-0 top-full bg-green-200 border border-green-500 rounded-md z-20">
+                            <ul
+                                className="absolute inset-x-0 top-full bg-green-200 border border-green-500 rounded-md z-20"
+                                tabIndex={0}
+                            >
                                 {movieTitles.map((item) => {
                                     return (
                                         <li
                                             key={item._id}
                                             className="px-4 py-2 hover:bg-green-300 cursor-pointer"
+                                            onMouseDown={(e) => e.preventDefault()}
                                             onClick={() => handleSelect(item._id)}
                                         >
                                             {item.title}
