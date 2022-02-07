@@ -41,11 +41,54 @@ Then change the `<APP_ID>` value to the app id of your Realm app.
 ```
 
 In your cluster on _Atlas_ in the _Search_ tab, create a new index with the name `default` and the above JSON.
+
 ![Atlas Search First Index](/docs/add-index-autocomplete.png?raw=true "Atlas Search First Index")
 
-## Realm GraphQL Schema Generation
+## Create Realm App
+
+TODO: _Realm_.
+
+![Create Realm App Step 1](/docs/create-realm-app.png?raw=true "Create Realm App Step 1")
+
+TODO: _Realm_.
+
+![Create Realm App Step 2](/docs/create-realm-app-config.png?raw=true "Create Realm App Step 2")
+
+## Realm Activate Anonymous Authentication
+
+TODO: _Realm_.
+
+![Realm Activate Anonymous Authentication](/docs/add-auth.png?raw=true "Realm Activate Anonymous Authentication")
+
+## Realm Configure Access Rules
+
+TODO: _Realm_.
+
+![Realm Configure Access Rules](/docs/add-rules-movies.png?raw=true "Realm Configure Access Rules")
+
+## Realm Generate Schema
+
+TODO: _Realm_.
+
+![Realm Generate Schema](/docs/create-schema-movies.png?raw=true "Realm Generate Schema")
+
+---
+
+## Feature 1: Autocomplete
+
+TODO
+
+### Create Autocomplete Function
+
+TODO
+
+![Create Autocomplete Function](/docs/create-func-autocomplete-config.png?raw=true "Create Autocomplete Function")
 
 ### Implement Autocomplete Function
+
+TODO
+
+![Implement Autocomplete Function](/docs/create-func-autocomplete-code.png?raw=true "Implement Autocomplete Function")
 
 ```js
 exports = async (title) => {
@@ -74,11 +117,33 @@ exports = async (title) => {
 };
 ```
 
-### Create Custome Resolver for Autocomplete
+### Create Autocomplete Custom Resolver
 
-### Input Type
+TODO
 
-### Implement Highlight Search Function
+![Create Autocomplete Custom Resolver](/docs/create-func-autocomplete-resolver.png?raw=true "Create Autocomplete Custom Resolver")
+
+#### Input Type
+
+#### Return Type
+
+---
+
+## Feature 2: Highlights and Scoring
+
+TODO
+
+### Create Highlights Function
+
+TODO
+
+![Create Highlights Function](/docs/create-func-filter-config.png?raw=true "Create Highlights Function")
+
+### Implement Highlights Function
+
+TODO
+
+![Implement Highlights Function](/docs/create-func-filter-code.png?raw=true "Implement Highlights Function")
 
 ```js
 exports = async (input) => {
@@ -159,9 +224,13 @@ exports = async (input) => {
 };
 ```
 
-## Create Custome Resolver for Highlight Search
+### Create Highlights Custom Resolver
 
-### Input Type
+TODO
+
+![Create Highlights Custom Resolver](/docs/create-func-filter-resolver.png?raw=true "Create Highlights Custom Resolver")
+
+#### Input Type
 
 ```json
 {
@@ -187,7 +256,7 @@ exports = async (input) => {
 }
 ```
 
-### Return Type
+#### Return Type
 
 ```json
 {
@@ -274,7 +343,11 @@ exports = async (input) => {
 }
 ```
 
-## Facets
+---
+
+## Feature 3: Facets
+
+TODO
 
 ### Facets Search Index Creation
 
@@ -298,39 +371,105 @@ exports = async (input) => {
 ```
 
 In your cluster on _Atlas_ in the _Search_ tab, create a new index with the name `facets` and the above JSON.
-![Atlas Search First Index](/docs/add-index-facets.png?raw=true "Atlas Search First Index")
 
-### Implement Facets Search Function
+![Atlas Search Facets Index](/docs/add-index-facets.png?raw=true "Atlas Search Facets Index")
+
+### Create Facets Function
+
+TODO
+
+![Create Facets Function](/docs/create-func-facets-config.png?raw=true "Create Facets Function")
+
+### Implement Facets Function
+
+TODO
+
+![Implement Facets Function](/docs/create-func-facets-code.png?raw=true "Implement Facets Function")
 
 ```js
 exports = async (arg) => {
     const collection = context.services.get("mongodb-atlas").db("sample_mflix").collection("movies");
 
-    return await collection.aggregate([
-        {
-            $searchMeta: {
-                index: "facets",
+    return await collection
+        .aggregate([
+            {
+                $searchMeta: {
+                    index: "facets",
 
-                facet: {
-                    operator: {
-                        range: {
-                            path: "year",
-                            gte: 2000,
+                    facet: {
+                        operator: {
+                            range: {
+                                path: "year",
+                                gte: 1900,
+                            },
                         },
-                    },
-                    facets: {
-                        genresFacet: {
-                            type: "string",
-                            path: "genres",
+                        facets: {
+                            genresFacet: {
+                                type: "string",
+                                path: "genres",
+                            },
                         },
                     },
                 },
             },
-        },
-    ]);
+        ])
+        .toArray();
 };
 ```
 
+### Create Facets Custom Resolver
+
+TODO
+
+![Create Facets Custom Resolver](/docs/create-func-facets-resolver.png?raw=true "Create Facets Custom Resolver")
+
+#### Input Type
+
+#### Return Type
+
+```json
+{
+    "title": "GenresMeta",
+    "type": "array",
+    "items": {
+        "bsonType": "object",
+        "properties": {
+            "count": {
+                "bsonType": "double"
+            },
+            "facet": {
+                "bsonType": "object",
+                "properties": {
+                    "genresFacet": {
+                        "bsonType": "object",
+                        "properties": {
+                            "buckets": {
+                                "bsonType": "array",
+                                "items": {
+                                    "bsonType": "object",
+                                    "properties": {
+                                        "_id": {
+                                            "bsonType": "string"
+                                        },
+                                        "count": {
+                                            "bsonType": "double"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+## Realm Static Site Hosting
+
+TODO
+
 ## CI/CD integration with Realm
 
-todo
+TODO
