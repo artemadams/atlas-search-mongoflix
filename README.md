@@ -40,35 +40,43 @@ Then change the `<APP_ID>` value to the app id of your Realm app.
 }
 ```
 
-In your cluster on _Atlas_ in the _Search_ tab, create a new index with the name `default` and the above JSON.
+In your cluster on **Atlas** in the **Search** tab, create a new index with the name `default` and the above JSON.
 
 ![Atlas Search First Index](/docs/add-index-autocomplete.png?raw=true "Atlas Search First Index")
 
 ## Create Realm App
 
-TODO: _Realm_.
+In the **Atlas** UI click the **Realm** tab. If you are using Realm for the first time, you will see a dialog with additonal instructions. You can safely cancel it and click the **Create a New App** button.
 
 ![Create Realm App Step 1](/docs/create-realm-app.png?raw=true "Create Realm App Step 1")
 
-TODO: _Realm_.
+In the following dialog, setup the name of the Realm App, connect it to your newly created cluster and select a local (single region) deployment model. It should be preferable to use the region closest to your cluster region.
+
+-   Name: Application-0
+-   Cluster: Cluster0
+-   Deployment Model: Local
+
+To create the app click the create button.
 
 ![Create Realm App Step 2](/docs/create-realm-app-config.png?raw=true "Create Realm App Step 2")
 
-## Realm Activate Anonymous Authentication
+### Realm Activate Anonymous Authentication
 
-TODO: _Realm_.
+On the left side bar of the Atlas UI, within **Data Access**, click **Authentication**. As you see **Realm** provides many authentication methods, we will use **Anonymous** for this demo. Click on the **Edit** button and set the checkbox to **ON** for this authentication method.
 
 ![Realm Activate Anonymous Authentication](/docs/add-auth.png?raw=true "Realm Activate Anonymous Authentication")
 
-## Realm Configure Access Rules
+### Realm Configure Access Rules
 
-TODO: _Realm_.
+On the left side bar of the Atlas UI, within **Data Access**, click **Rules**. **Rules** provide you many ways to limit and configure data access per collection and user role, deep down to the document level. For this demo we will allow all users to only `read` all documents in the movies colelction. **Realm** provides templates for many scenarios and we will use the **Users can only read all data** template.
 
 ![Realm Configure Access Rules](/docs/add-rules-movies.png?raw=true "Realm Configure Access Rules")
 
-## Realm Generate Schema
+### Realm Generate Schema
 
-TODO: _Realm_.
+On the left side bar of the Atlas UI, within **Data Access**, click **Schema**. **Schema** defines the data structures and types for documents in each collection in the databases. Select the **movies** collection within the **sample_mflix** database. Click the generate schema button.
+Select just the **movies** collection, leave the samling size as default and click the **Generate Schema** button.
+This will also generate all the neccessary types and querries for a **GraphQL** schema. Which can be used immediately to access the data through the GraphQL endpoint managed by Realm.
 
 ![Realm Generate Schema](/docs/create-schema-movies.png?raw=true "Realm Generate Schema")
 
@@ -76,19 +84,24 @@ TODO: _Realm_.
 
 ## Feature 1: Autocomplete
 
-TODO
+Now with the correct rules and schema in place we can start creating functions for the app.
+For the first feature we will create a function that will return a list of movies that match the search term by the title. It will use our dynamic index created in the previous step with the autocomplete functionality. This enables us to provide autocomplete and fuzzy search for movie tiltes in the search bar of the frontend app.
 
 ### Create Autocomplete Function
 
-TODO
+On the left side bar of the Atlas UI, within **Build**, click **Functions**. **Functions** provide a way to execute serverside logic on **Realm** integrating data from the connected cluster. With the **Aggregation Framework** at your disposal you can create very powerful aggregations, even without a driver.
+
+Click the **Create New Function** button and enter `autocompleteTitle` as the name for the function.
 
 ![Create Autocomplete Function](/docs/create-func-autocomplete-config.png?raw=true "Create Autocomplete Function")
 
 ### Implement Autocomplete Function
 
-TODO
+Now click the **Function Editor** tab.
 
 ![Implement Autocomplete Function](/docs/create-func-autocomplete-code.png?raw=true "Implement Autocomplete Function")
+
+Paste the following code into the **Function Editor**:
 
 ```js
 exports = async (title) => {
@@ -117,33 +130,56 @@ exports = async (title) => {
 };
 ```
 
+Click the **Save Draft** button to save the function.
+
 ### Create Autocomplete Custom Resolver
 
-TODO
+We want to use the autocomplete function in our GraphQL schema. To do this we need to create a custom resolver. Custom resolvers allow us to define custom querries and mutations for our GraphQL schema, backed by **Functions** created on Realm.
 
-![Create Autocomplete Custom Resolver](/docs/create-func-autocomplete-resolver.png?raw=true "Create Autocomplete Custom Resolver")
+On the left side bar of the Atlas UI, within **Build**, click **GraphQL**. Click the **Custom Resolvers** tab and click the **Add a Custom Resolver** button. For the **GraphQL Field Name** enter `autocompleteTitle`, for the **Parent Type** select **Query** and for the **Function Name** select the newly created function `autocompleteTitle`.
+
+The input type defines the data type of what will be send to the GraphQL API as input for this resolver.
+The return type defines the data type of what will be returned by the API.
+We will send a string as input and expect a list of movie objects as output.
 
 #### Input Type
 
+-   Input Type: `Scalar Type`, `String`
+
 #### Return Type
+
+-   Return Type: `Existing Type (List)`, `[Movie]`
+
+Click the **Save Draft** button to save the custom resolver.
+
+![Create Autocomplete Custom Resolver](/docs/create-func-autocomplete-resolver.png?raw=true "Create Autocomplete Custom Resolver")
+
+Now with the first feature setup take the time to test the app, enter some movie titles into the search bar and see the autocomplete results.
 
 ---
 
 ## Feature 2: Highlights and Scoring
 
-TODO
+Now with the autocomplete function in place we can creat a new function for highlights and scoring. This function will return a list of movies that match the search term by the title, the genres selected and the country where a certain movie was produced.
+Additionally, it will return highlights and search scores for the results. The highlights contain the exact substring within the title and the plot strings, containing the matched search term.
+This will allow us to highlight the found search terms within the frontend UI.
 
 ### Create Highlights Function
 
-TODO
+Similar to the previous function we will create a new function for highlights and scoring.
+
+On the left side bar of the Atlas UI, within **Build**, click **Functions**.
+Click the **Create New Function** button and enter `filteredMovies` as the name for the function.
 
 ![Create Highlights Function](/docs/create-func-filter-config.png?raw=true "Create Highlights Function")
 
 ### Implement Highlights Function
 
-TODO
+Now click the **Function Editor** tab.
 
 ![Implement Highlights Function](/docs/create-func-filter-code.png?raw=true "Implement Highlights Function")
+
+Paste the following code into the **Function Editor**:
 
 ```js
 exports = async (input) => {
@@ -226,11 +262,15 @@ exports = async (input) => {
 
 ### Create Highlights Custom Resolver
 
-TODO
+On the left side bar of the Atlas UI, within **Build**, click **GraphQL**. Click the **Custom Resolvers** tab and click the **Add a Custom Resolver** button. For the **GraphQL Field Name** enter `filteredMovies`, for the **Parent Type** select **Query** and for the **Function Name** select the newly created function `filteredMovies`.
+
+We will send a string as input and expect a list of custom movie objects, containing the scores and highlights for each movie as output.
 
 ![Create Highlights Custom Resolver](/docs/create-func-filter-resolver.png?raw=true "Create Highlights Custom Resolver")
 
 #### Input Type
+
+-   Input Type: `Scalar Type`
 
 ```json
 {
@@ -257,6 +297,8 @@ TODO
 ```
 
 #### Return Type
+
+-   Return Type: `Existing Type (List)`, `[Movie]`
 
 ```json
 {
@@ -343,13 +385,21 @@ TODO
 }
 ```
 
+Click the **Save Draft** button to save the custom resolver.
+
+Now with the highlights feature setup take the time to test the app, enter some movie titles into the search bar scroll in the results list and verify that the fuzzy matched search term is highlighted within the movie title and the short plot when there is a match.
+
 ---
 
 ## Feature 3: Facets
 
-TODO
+Facets open many powerful use cases for grouping your search results. The following feature shows how to run an Atlas Search query to get results grouped by values for genres of each movie in the **movies** collection, including the count for each of those groups.
 
 ### Facets Search Index Creation
+
+In your cluster on **Atlas** in the **Search** tab, create a new index with the name `facets` and the following JSON for the **movies** collection.
+
+![Atlas Search Facets Index](/docs/add-index-facets.png?raw=true "Atlas Search Facets Index")
 
 ```json
 {
@@ -370,21 +420,20 @@ TODO
 }
 ```
 
-In your cluster on _Atlas_ in the _Search_ tab, create a new index with the name `facets` and the above JSON.
-
-![Atlas Search Facets Index](/docs/add-index-facets.png?raw=true "Atlas Search Facets Index")
-
 ### Create Facets Function
 
-TODO
+Now with the index created, in the **Atlas** UI click the **Realm** tab. Click **Application-0** in the UI. On the left side bar of the Atlas UI, within **Build**, click **Functions**.
+Click the **Create New Function** button and enter `facetsGenres` as the name for the function.
 
 ![Create Facets Function](/docs/create-func-facets-config.png?raw=true "Create Facets Function")
 
 ### Implement Facets Function
 
-TODO
+Now click the **Function Editor** tab.
 
 ![Implement Facets Function](/docs/create-func-facets-code.png?raw=true "Implement Facets Function")
+
+Paste the following code into the **Function Editor**:
 
 ```js
 exports = async (arg) => {
@@ -395,7 +444,6 @@ exports = async (arg) => {
             {
                 $searchMeta: {
                     index: "facets",
-
                     facet: {
                         operator: {
                             range: {
@@ -419,13 +467,19 @@ exports = async (arg) => {
 
 ### Create Facets Custom Resolver
 
-TODO
+On the left side bar of the Atlas UI, within **Build**, click **GraphQL**. Click the **Custom Resolvers** tab and click the **Add a Custom Resolver** button. For the **GraphQL Field Name** enter `facetsGenres`, for the **Parent Type** select **Query** and for the **Function Name** select the newly created function `facetsGenres`.
+
+We won't send input to this query and expect a list of custom objects representing the facets for each genre, containing the number of movies for each Genre.
 
 ![Create Facets Custom Resolver](/docs/create-func-facets-resolver.png?raw=true "Create Facets Custom Resolver")
 
 #### Input Type
 
+-   Input Type: `None`
+
 #### Return Type
+
+-   Return Type: `Custom Type`
 
 ```json
 {
@@ -466,10 +520,16 @@ TODO
 }
 ```
 
+Click the **Save Draft** button to save the custom resolver.
+
+Now with the facets setup test the app and open the dropdown for **Genres**. Notice that there is now a number besides each genre representing the total number of movies for that genre.
+
+---
+
 ## Realm Static Site Hosting
 
-TODO
+`TODO`
 
 ## CI/CD integration with Realm
 
-TODO
+`TODO`
