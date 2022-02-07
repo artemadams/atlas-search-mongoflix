@@ -80,6 +80,12 @@ This will also generate all the neccessary types and querries for a **GraphQL** 
 
 ![Realm Generate Schema](/docs/create-schema-movies.png?raw=true "Realm Generate Schema")
 
+Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
+
+![Review Draft & Deploy](/docs/hint-review.png?raw=true "Review Draft & Deploy")
+
+![Deploy](/docs/hint-review-deploy.png?raw=true "Deploy")
+
 ---
 
 ## Feature 1: Autocomplete
@@ -153,6 +159,8 @@ We will send a string as input and expect a list of movie objects as output.
 Click the **Save Draft** button to save the custom resolver.
 
 ![Create Autocomplete Custom Resolver](/docs/create-func-autocomplete-resolver.png?raw=true "Create Autocomplete Custom Resolver")
+
+Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
 
 Now with the first feature setup take the time to test the app, enter some movie titles into the search bar and see the autocomplete results.
 
@@ -387,6 +395,8 @@ We will send a string as input and expect a list of custom movie objects, contai
 
 Click the **Save Draft** button to save the custom resolver.
 
+Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
+
 Now with the highlights feature setup take the time to test the app, enter some movie titles into the search bar scroll in the results list and verify that the fuzzy matched search term is highlighted within the movie title and the short plot when there is a match.
 
 ---
@@ -522,14 +532,39 @@ We won't send input to this query and expect a list of custom objects representi
 
 Click the **Save Draft** button to save the custom resolver.
 
+Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
+
 Now with the facets setup test the app and open the dropdown for **Genres**. Notice that there is now a number besides each genre representing the total number of movies for that genre.
 
 ---
 
 ## Realm Static Site Hosting
 
-`TODO`
+**MongoDB Realm Hosting** allows you to host, manage, and serve your application's static media and document files. You can use Hosting to store individual pieces of content or to upload and serve your entire client application
 
-## CI/CD integration with Realm
+Our frontend app contains all the necessary calls to the GraphQL API on Realm. We can export the whole frontend app as a statci site and host it on MongoDB Realm.
 
-`TODO`
+For this you need to execute the follwing code in the root of the project.
+Make sure that you have the dependencies installed with.
+
+```bash
+ npm install
+```
+
+and then build and export the site with next.
+
+```bash
+ next build && next export
+```
+
+This will create a folder called `out` in the root of the project.
+
+On the MongoDB Atlas UI on the **Realm** tab. On the left side bar of the Atlas UI, within **Manage**, click **Hosting**. Click the _Enable Hosting_ button. Drag and drop the contents of the folder `out` into the **Hosting** tab to upload all files.
+
+Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
+
+![Review Draft & Deploy](/docs/hint-review.png?raw=true "Review Draft & Deploy")
+
+![Deploy](/docs/hint-review-deploy.png?raw=true "Deploy")
+
+Click now the **Settings** tab copy the **Realm Domain** paste it in a browser of your choice and press enter to view the site. 🎉
