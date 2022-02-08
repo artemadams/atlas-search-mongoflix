@@ -27,6 +27,7 @@ const getMovies = `
     }
 `;
 
+// TASK: add support for pagination
 const fetcherMovies = async (query, filter) => {
     const headers = await generateAuthHeader();
     return request(
