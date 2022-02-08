@@ -17,6 +17,37 @@ Open the project live on [StackBlitz](http://stackblitz.com/):
 Duplicate the file `.env.local.example-add-app-id-here` and name it: `.env.local`.
 You will need to change the `<APP_ID>` value to the app id of your MongoDB Realm app, which will be created at a later step.
 
+# Agenda
+
+<details open>
+<summary><b>(click to expand or hide)</b></summary>
+
+1. [Atlas Cluster](#AtlasCluster)
+    1. [Load Sample Data](#LoadSampleData)
+1. [Atlas Search Index Creation](#AtlasSearchIndexCreation)
+1. [Create Realm App](#CreateRealmApp)
+    1. [Realm Activate Anonymous Authentication](#RealmActivateAnonymousAuthentication)
+    1. [Realm Configure Access Rules](#RealmConfigureAccessRules)
+    1. [Realm Generate Schema](#RealmGenerateSchema)
+1. [Feature 1: Autocomplete](#Feature1Autocomplete)
+    1. [Create Autocomplete Function](#CreateAutocompleteFunction)
+    1. [Implement Autocomplete Function](#ImplementAutocompleteFunction)
+    1. [Create Autocomplete Custom Resolver](#CreateAutocompleteCustomResolver)
+1. [Feature 2: Highlights and Scoring](#Feature2HighlightsAndScoring)
+    1. [Create Highlights Function](#CreateHighlightsFunction)
+    1. [Implement Highlights Function](#ImplementHighlightsFunction)
+    1. [Create Highlights Custom Resolver](#CreateHighlightsCustomResolver)
+1. [Feature 3: Facets](#Feature3Facets)
+    1. [Facets Search Index Creation](#FacetsSearchIndexCreation)
+    1. [Create Facets Function](#CreateFacetsFunction)
+    1. [Implement Facets Function](#ImplementFacetsFunction)
+    1. [Create Facets Custom Resolver](#CreateFacetsCustomResolver)
+1. [Realm Static Site Hosting](#RealmStaticSiteHosting)
+
+</details>
+
+<a id="AtlasCluster"></a>
+
 ## Atlas Cluster
 
 To follow along with the demo, you will need to create a MongoDB Atlas cluster and load the sample data set into your cluster.
@@ -36,6 +67,8 @@ Here are the settings for the cluster:
 
 ![Atlas Cluster](/docs/create-shared-cluster.png?raw=true "Atlas Cluster")
 
+<a id="LoadSampleData"></a>
+
 ### Load Sample Data
 
 After your cluster was deployed in the region of your choice, you will need to load the sample data set into your cluster.
@@ -43,6 +76,8 @@ Click the three dots menu in the top headline of the cluster card.
 Click **Load Sample Dataset**. Click the **Load Sample Dataset** button in the overlay to start the process. (It should take about 5-10 minutes. ☕️ 🍵)
 
 ![Load Sample Data](/docs/load-data-1.png?raw=true "Load Sample Data")
+
+<a id="AtlasSearchIndexCreation"></a>
 
 ## Atlas Search Index Creation
 
@@ -84,6 +119,8 @@ Enter the following querry to find all movies containing the text `time` in any 
 { "$search": { "text": "time travel" } }
 ```
 
+<a id="CreateRealmApp"></a>
+
 ## Create Realm App
 
 In the **Atlas** UI click the **Realm** tab at the top. If you are using Realm for the first time, you will see a dialog with additonal instructions. You can safely select **Build your own App** it and click the **Next**.
@@ -101,17 +138,23 @@ To create the app click **Create Realm Application**.
 
 ![Create Realm App Step 2](/docs/create-realm-app-config.png?raw=true "Create Realm App Step 2")
 
+<a id="RealmActivateAnonymousAuthentication"></a>
+
 ### Realm Activate Anonymous Authentication
 
 On the left side bar of the Atlas UI, within **Data Access**, click **Authentication**. As you see **Realm** provides many authentication methods, we will use **Anonymous** for this demo. Click on the **Edit** button and set the checkbox to **ON** for this authentication method.
 
 ![Realm Activate Anonymous Authentication](/docs/add-auth.png?raw=true "Realm Activate Anonymous Authentication")
 
+<a id="RealmConfigureAccessRules"></a>
+
 ### Realm Configure Access Rules
 
 On the left side bar of the Atlas UI, within **Data Access**, click **Rules**. **Rules** provide you many ways to limit and configure data access per collection and user role, deep down to the document level. For this demo we will allow all users to only `read` all documents in the movies colelction. **Realm** provides templates for many scenarios and we will use the **Users can only read all data** template.
 
 ![Realm Configure Access Rules](/docs/add-rules-movies.png?raw=true "Realm Configure Access Rules")
+
+<a id="RealmGenerateSchema"></a>
 
 ### Realm Generate Schema
 
@@ -129,10 +172,14 @@ Click the **Review Draft & Deploy** button at the top of the page and **Deploy**
 
 ---
 
+<a id="Feature1Autocomplete"></a>
+
 ## Feature 1: Autocomplete
 
 Now with the correct rules and schema in place we can start creating functions for the app.
 For the first feature we will create a function that will return a list of movies that match the search term by the title. It will use our dynamic index created in the previous step with the autocomplete functionality. This enables us to provide autocomplete and fuzzy search for movie tiltes in the search bar of the frontend app.
+
+<a id="CreateAutocompleteFunction"></a>
 
 ### Create Autocomplete Function
 
@@ -141,6 +188,8 @@ On the left side bar of the Atlas UI, within **Build**, click **Functions**. **F
 Click the **Create New Function** button and enter `autocompleteTitle` as the name for the function.
 
 ![Create Autocomplete Function](/docs/create-func-autocomplete-config.png?raw=true "Create Autocomplete Function")
+
+<a id="ImplementAutocompleteFunction"></a>
 
 ### Implement Autocomplete Function
 
@@ -179,6 +228,8 @@ exports = async (title) => {
 
 Click the **Save Draft** button to save the function.
 
+<a id="CreateAutocompleteCustomResolver"></a>
+
 ### Create Autocomplete Custom Resolver
 
 We want to use the autocomplete function in our GraphQL schema. To do this we need to create a custom resolver. Custom resolvers allow us to define custom querries and mutations for our GraphQL schema, backed by **Functions** created on Realm.
@@ -207,11 +258,15 @@ Now with the first feature setup take the time to test the app, enter some movie
 
 ---
 
+<a id="Feature2HighlightsAndScoring"></a>
+
 ## Feature 2: Highlights and Scoring
 
 Now with the autocomplete function in place we can creat a new function for highlights and scoring. This function will return a list of movies that match the search term by the title, the genres selected and the country where a certain movie was produced.
 Additionally, it will return highlights and search scores for the results. The highlights contain the exact substring within the title and the plot strings, containing the matched search term.
 This will allow us to highlight the found search terms within the frontend UI.
+
+<a id="CreateHighlightsFunction"></a>
 
 ### Create Highlights Function
 
@@ -221,6 +276,8 @@ On the left side bar of the Atlas UI, within **Build**, click **Functions**.
 Click the **Create New Function** button and enter `filteredMovies` as the name for the function.
 
 ![Create Highlights Function](/docs/create-func-filter-config.png?raw=true "Create Highlights Function")
+
+<a id="ImplementHighlightsFunction"></a>
 
 ### Implement Highlights Function
 
@@ -308,6 +365,8 @@ exports = async (input) => {
     return await collection.aggregate(searchQuery).toArray();
 };
 ```
+
+<a id="CreateHighlightsCustomResolver"></a>
 
 ### Create Highlights Custom Resolver
 
@@ -442,9 +501,13 @@ Now with the highlights feature setup take the time to test the app, enter some 
 
 ---
 
+<a id="Feature3Facets"></a>
+
 ## Feature 3: Facets
 
 Facets open many powerful use cases for grouping your search results. The following feature shows how to run an Atlas Search query to get results grouped by values for genres of each movie in the **movies** collection, including the count for each of those groups.
+
+<a id="FacetsSearchIndexCreation"></a>
 
 ### Facets Search Index Creation
 
@@ -471,12 +534,16 @@ In your cluster on **Atlas** in the **Search** tab, create a new index with the 
 }
 ```
 
+<a id="CreateFacetsFunction"></a>
+
 ### Create Facets Function
 
 Now with the index created, in the **Atlas** UI click the **Realm** tab. Click **Application-0** in the UI. On the left side bar of the Atlas UI, within **Build**, click **Functions**.
 Click the **Create New Function** button and enter `facetsGenres` as the name for the function.
 
 ![Create Facets Function](/docs/create-func-facets-config.png?raw=true "Create Facets Function")
+
+<a id="ImplementFacetsFunction"></a>
 
 ### Implement Facets Function
 
@@ -515,6 +582,8 @@ exports = async (arg) => {
         .toArray();
 };
 ```
+
+<a id="CreateFacetsCustomResolver"></a>
 
 ### Create Facets Custom Resolver
 
@@ -578,6 +647,8 @@ Click the **Review Draft & Deploy** button at the top of the page and **Deploy**
 Now with the facets setup test the app and open the dropdown for **Genres**. Notice that there is now a number besides each genre representing the total number of movies for that genre.
 
 ---
+
+<a id="RealmStaticSiteHosting"></a>
 
 ## Realm Static Site Hosting
 
