@@ -27,6 +27,7 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
     const router = useRouter();
     const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [focusedIndex, setFocusedIndex] = useState(0);
 
     const { data } = useSWR([autocompleteTitle, searchTerm], fetcher);
     if (data?.error) return handleError(data.error);
@@ -36,6 +37,10 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
         e.preventDefault();
 
         setIsAutocompleteOpen(false);
+        if (movieTitles.length > 0 && focusedIndex < movieTitles.length) {
+            const movieId = movieTitles[focusedIndex]._id;
+            handleSelect(movieId);
+        }
         // router.push({
         //     pathname: `/search/${searchTerm}`,
         // });
@@ -60,6 +65,19 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
 
     const updateFilterCountries = (countries) => {
         setFilters({ ...filters, countries: countries });
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+            setFocusedIndex((focusedIndex - 1 + movieTitles.length) % movieTitles.length);
+            console.log(focusedIndex);
+        }
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            setFocusedIndex((focusedIndex + 1) % movieTitles.length);
+            console.log(focusedIndex);
+        }
     };
 
     return (
@@ -87,6 +105,7 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                                 onBlur={() => setIsAutocompleteOpen(false)}
                                 onFocus={() => setIsAutocompleteOpen(true)}
                                 value={searchTerm}
+                                onKeyDown={handleKeyPress}
                             />
                         </form>
 
@@ -96,12 +115,20 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                             <div className="status"> Fetching data...</div>
                         )} */}
                         {movieTitles.length > 0 && isAutocompleteOpen && (
-                            <ul className="absolute inset-x-0 top-full bg-green-200 border border-green-500 rounded-md z-20">
-                                {movieTitles.map((item) => {
+                            <ul
+                                className="absolute inset-x-0 top-full bg-white border border-green-500 rounded-md z-20"
+                                tabIndex={0}
+                                onKeyDown={handleKeyPress}
+                            >
+                                {movieTitles.map((item, index) => {
                                     return (
                                         <li
                                             key={item._id}
-                                            className="px-4 py-2 hover:bg-green-300 cursor-pointer"
+                                            className={`px-4 py-2
+                                            ${
+                                                focusedIndex === index ? "bg-green-300" : ""
+                                            } hover:bg-green-300 cursor-pointer`}
+                                            onMouseDown={(e) => e.preventDefault()}
                                             onClick={() => handleSelect(item._id)}
                                         >
                                             {item.title}
@@ -122,7 +149,7 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                     />
                     <Multiselect
                         items={countries.map((e) => {
-                            return { title: e, subtitle: null };
+                            return { title: e._id, subtitle: e.count };
                         })}
                         selectedItems={filters.countries}
                         setSelectedItems={updateFilterCountries}
