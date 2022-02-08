@@ -8,7 +8,7 @@ import Movies from "../components/Movies";
 import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "/services/RealmService";
 import useSWR from "swr";
 import { request } from "graphql-request";
-import { testGenres } from "/services/testData";
+import { testGenres, testCountries } from "/services/testData";
 
 const getMovies = `
     query GetMovies($sortByInput: MovieSortByInput!, $queryInput: MovieQueryInput!, $limit: Int!) {
@@ -115,9 +115,9 @@ export default function Home() {
 
     const { data: dataFacets } = useSWR([getFacetsGenres], fetcherFacetsGenres);
     if (dataFacets?.error) return handleError(dataFacets.error);
-    const genresWithCount = dataFacets?.facetsGenres[0]?.facet.genresFacet.buckets ?? [];
+    const genresWithCount = dataFacets?.facetsGenres[0]?.facet.genresFacet.buckets ?? testGenres;
 
-    const countries = [...new Set(movies.map((e) => e.countries).flat())].sort((a, b) => a > b);
+    const countries = testCountries; // TASK: make facets API generic to support other properties
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">

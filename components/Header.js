@@ -149,7 +149,7 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                     />
                     <Multiselect
                         items={countries.map((e) => {
-                            return { title: e, subtitle: null };
+                            return { title: e._id, subtitle: e.count };
                         })}
                         selectedItems={filters.countries}
                         setSelectedItems={updateFilterCountries}
