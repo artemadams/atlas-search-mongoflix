@@ -20,7 +20,7 @@ You will need to change the `<APP_ID>` value to the app id of your MongoDB Realm
 # Agenda
 
 <details open>
-<summary><b>(click to expand or hide)</b></summary>
+<summary><b>All Steps</b></summary>
 
 1. [Atlas Cluster](#AtlasCluster)
     1. [Load Sample Data](#LoadSampleData)
