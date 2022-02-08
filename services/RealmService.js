@@ -1,12 +1,12 @@
 import { Credentials, App } from "realm-web";
 
 const APP_ID = process.env.NEXT_PUBLIC_REALM_APP_ID;
-const BASE_URL = "eu-central-1.aws.realm.mongodb.com";
+const BASE_URL = process.env.NEXT_PUBLIC_REALM_BASE_URL ?? "eu-central-1.aws.realm.mongodb.com";
 export const REALM_GRAPHQL_ENDPOINT = `https://${BASE_URL}/api/client/v2.0/app/${APP_ID}/graphql`;
 
 const app = new App({
     id: APP_ID,
-    baseUrl: "https://eu-central-1.aws.realm.mongodb.com",
+    baseUrl: `https://${BASE_URL}`,
 });
 
 export const generateAuthHeader = async () => {
@@ -27,32 +27,14 @@ export const generateAuthHeader = async () => {
     };
 };
 
-export const autocompleteService = async (term) => {
-    if (term.length) {
-        const app = new Realm.App({ id: APP_ID });
-        const credentials = Realm.Credentials.anonymous();
-        try {
-            const user = await app.logIn(credentials);
-            const searchAutoComplete = await user.functions.searchAutoComplete(term);
-            setAutoComplete(() => searchAutoComplete);
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        setAutoComplete([]);
-    }
-};
-
-export const getAllMovies = async () => {
-    const app = new Realm.App({
-        id: APP_ID,
-        baseUrl: REALM_GRAPHQL_ENDPOINT,
-    });
-    const credentials = Realm.Credentials.anonymous();
+// DOCS: example of a direct call for custom Realm functions
+export const realmFunctionTemplate = async () => {
+    const credentials = Credentials.anonymous();
     try {
         const user = await app.logIn(credentials);
-        const allMovie = await user.functions.getAllMovies();
-        setMovie(() => allMovie);
+        // all functions hosted on realm for an app are exposed in the `user.functions` property
+        // replace `nameOfRealmFunction` with the name of the function you want to call
+        const result = await user.functions.nameOfRealmFunction();
     } catch (error) {
         console.error(error);
     }
