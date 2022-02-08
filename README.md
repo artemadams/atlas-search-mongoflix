@@ -1,6 +1,6 @@
 # Atlas Search Workshop
 
-MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/atlas/search), [Realm](https://www.mongodb.com/realm), [GraphQL](https://docs.mongodb.com/realm/graphql/) and so much more.
+MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/atlas/search), [MongoDB Realm](https://www.mongodb.com/realm), [GraphQL](https://docs.mongodb.com/realm/graphql/) and so much more.
 
 ## Live Demo
 
@@ -15,11 +15,46 @@ Open the project live on [StackBlitz](http://stackblitz.com/):
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/artemadams/atlas-search-mongoflix)
 
 Duplicate the file `.env.local.example-add-app-id-here` and name it: `.env.local`.
-Then change the `<APP_ID>` value to the app id of your Realm app.
+You will need to change the `<APP_ID>` value to the app id of your MongoDB Realm app, which will be created at a later step.
 
-## Atlas Cluster and Sample Data
+## Atlas Cluster
+
+To follow along with the demo, you will need to create a MongoDB Atlas cluster and load the sample data set into your cluster.
+Please create an account on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) and follow the instructions.
+If it is the first time you use Atlas you will need to create an organization and a project. After you complete the account setup, you will see the **Atlas UI**. If you don not have any cluster click the **Build a Database** button.
+
+In the following dialog select **Shared** and click **Create**.
+The following screen will provide an interface to configure the cluster.
+
+If you choose a region other than Frankfurt you will need to update the endpoint in the app in `services/RealmService.js` to match the region.
+
+Here are the settings for the cluster:
+
+-   **Cloud Provider & Region**: `AWS, Frankfurt (eu-central-1)`
+-   **Cluster Tier**: `MO Sandbox (Shared RAM, 512 MB Storage)`
+-   **Cluster Name**: `Cluster0`
+
+![Atlas Cluster](/docs/create-shared-cluster.png?raw=true "Atlas Cluster")
+
+### Load Sample Data
+
+After your cluster was deployed in the region of your choice, you will need to load the sample data set into your cluster.
+Click the three dots menu in the top headline of the cluster card.
+Click **Load Sample Dataset**. Click the **Load Sample Dataset** button in the overlay to start the process. (It should take about 5-10 minutes. ☕️ 🍵)
+
+![Load Sample Data](/docs/load-data-1.png?raw=true "Load Sample Data")
 
 ## Atlas Search Index Creation
+
+Click the Cluster name to open it. In your cluster on **Atlas** click the **Search** tab. Click the **Create Search Index** button to create an index.
+
+1. Select the JSON editor and click **Next**.
+1. In the **Database and Collection** sidebar select `sample_mflix` and select `movies`.
+1. For the name leave it as `default` and paste the following JSON.
+1. Click **Next**.
+1. After reviewing it, click **Create Search Index**.
+
+![Atlas Search First Index](/docs/add-index-autocomplete.png?raw=true "Atlas Search First Index")
 
 ```json
 {
@@ -40,15 +75,21 @@ Then change the `<APP_ID>` value to the app id of your Realm app.
 }
 ```
 
-In your cluster on **Atlas** in the **Search** tab, create a new index with the name `default` and the above JSON.
+The index creation should take less tha a minute.
+Lets test it, to verify that it works.
+Still in the **Search** tab, click the **Query** button besides the newly created index.
+Enter the following querry to find all movies containing the text `time` in any text values.
 
-![Atlas Search First Index](/docs/add-index-autocomplete.png?raw=true "Atlas Search First Index")
+```json
+{ "$search": { "text": "time travel" } }
+```
 
 ## Create Realm App
 
-In the **Atlas** UI click the **Realm** tab. If you are using Realm for the first time, you will see a dialog with additonal instructions. You can safely cancel it and click the **Create a New App** button.
+In the **Atlas** UI click the **Realm** tab at the top. If you are using Realm for the first time, you will see a dialog with additonal instructions. You can safely select **Build your own App** it and click the **Next**.
+The information should be populated automatically. Make sure to use the same name for simplicity.
 
-![Create Realm App Step 1](/docs/create-realm-app.png?raw=true "Create Realm App Step 1")
+![Create Realm App Step 1](/docs/create-realm-app-welcome.png?raw=true "Create Realm App Step 1")
 
 In the following dialog, setup the name of the Realm App, connect it to your newly created cluster and select a local (single region) deployment model. It should be preferable to use the region closest to your cluster region.
 
@@ -56,7 +97,7 @@ In the following dialog, setup the name of the Realm App, connect it to your new
 -   Cluster: Cluster0
 -   Deployment Model: Local
 
-To create the app click the create button.
+To create the app click **Create Realm Application**.
 
 ![Create Realm App Step 2](/docs/create-realm-app-config.png?raw=true "Create Realm App Step 2")
 
