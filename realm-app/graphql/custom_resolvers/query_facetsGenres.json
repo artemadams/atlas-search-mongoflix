@@ -1,6 +1,6 @@
 {
     "field_name": "facetsGenres",
-    "function_name": "genresFacets",
+    "function_name": "facetsGenres",
     "input_type_format": "",
     "on_type": "Query",
     "payload_type": {
