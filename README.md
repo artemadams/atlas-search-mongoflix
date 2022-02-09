@@ -371,6 +371,7 @@ exports = async (input) => {
                 year: 1,
                 genres: 1,
                 countries: 1,
+                imdb: 1,
                 score: { $meta: "searchScore" },
                 highlights: { $meta: "searchHighlights" },
             },
@@ -394,7 +395,7 @@ We will send a string as input and expect a list of custom movie objects, contai
 
 #### Input Type
 
--   Input Type: `Scalar Type`
+-   Input Type: `Custom Type`
 
 ```json
 {
@@ -422,56 +423,23 @@ We will send a string as input and expect a list of custom movie objects, contai
 
 #### Return Type
 
--   Return Type: `Existing Type (List)`, `[Movie]`
+-   Return Type: `Custom Type`
 
 ```json
 {
-    "type": "array",
-    "title": "FilteredMovies",
     "items": {
         "bsonType": "object",
         "properties": {
             "_id": {
                 "bsonType": "objectId"
             },
-            "score": {
-                "bsonType": "double"
-            },
-            "highlights": {
+            "cast": {
                 "bsonType": "array",
                 "items": {
-                    "bsonType": "object",
-                    "properties": {
-                        "score": {
-                            "bsonType": "double"
-                        },
-                        "path": {
-                            "bsonType": "string"
-                        },
-                        "texts": {
-                            "bsonType": "array",
-                            "items": {
-                                "bsonType": "object",
-                                "properties": {
-                                    "value": {
-                                        "bsonType": "string"
-                                    },
-                                    "type": {
-                                        "bsonType": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "bsonType": "string"
                 }
             },
-            "poster": {
-                "bsonType": "string"
-            },
-            "title": {
-                "bsonType": "string"
-            },
-            "cast": {
+            "countries": {
                 "bsonType": "array",
                 "items": {
                     "bsonType": "string"
@@ -486,26 +454,73 @@ We will send a string as input and expect a list of custom movie objects, contai
             "fullplot": {
                 "bsonType": "string"
             },
-            "plot": {
-                "bsonType": "string"
-            },
-            "year": {
-                "bsonType": "int"
-            },
-            "countries": {
-                "bsonType": "array",
-                "items": {
-                    "bsonType": "string"
-                }
-            },
             "genres": {
                 "bsonType": "array",
                 "items": {
                     "bsonType": "string"
                 }
+            },
+            "highlights": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "object",
+                    "properties": {
+                        "path": {
+                            "bsonType": "string"
+                        },
+                        "score": {
+                            "bsonType": "double"
+                        },
+                        "texts": {
+                            "bsonType": "array",
+                            "items": {
+                                "bsonType": "object",
+                                "properties": {
+                                    "type": {
+                                        "bsonType": "string"
+                                    },
+                                    "value": {
+                                        "bsonType": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "imdb": {
+                "bsonType": "object",
+                "properties": {
+                    "id": {
+                        "bsonType": "int"
+                    },
+                    "rating": {
+                        "bsonType": "double"
+                    },
+                    "votes": {
+                        "bsonType": "int"
+                    }
+                }
+            },
+            "plot": {
+                "bsonType": "string"
+            },
+            "poster": {
+                "bsonType": "string"
+            },
+            "score": {
+                "bsonType": "double"
+            },
+            "title": {
+                "bsonType": "string"
+            },
+            "year": {
+                "bsonType": "int"
             }
         }
-    }
+    },
+    "title": "FilteredMovies",
+    "type": "array"
 }
 ```
 
