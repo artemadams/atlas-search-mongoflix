@@ -10,6 +10,12 @@ exports = async (input) => {
                 path: "title",
                 query: term,
                 fuzzy: { maxEdits: 1.0 },
+                score: {
+                    boost: {
+                        path: "imdb.rating",
+                        undefined: 1,
+                    },
+                },
             },
         };
         searchMust.push(termStage);
@@ -65,12 +71,13 @@ exports = async (input) => {
                 year: 1,
                 genres: 1,
                 countries: 1,
+                imdb: 1,
                 score: { $meta: "searchScore" },
                 highlights: { $meta: "searchHighlights" },
             },
         },
         { $limit: 20 },
     ];
-    
+
     return await collection.aggregate(searchQuery).toArray();
 };

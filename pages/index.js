@@ -60,6 +60,11 @@ const getFilteredMovies = `
             score
             genres
             countries
+            imdb {
+                id
+                rating
+                votes
+            }
             highlights {
                 path
                 score
@@ -106,13 +111,14 @@ export const handleError = (error) => {
 export default function Home() {
     const [filters, setFilters] = useState({ term: "", genres: [], countries: [] });
 
-    const { data: dataFiltered } = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
-    if (dataFiltered?.error) return handleError(error);
-    const filteredMovies = dataFiltered?.filteredMovies ?? [];
-
     const { data: dataMovies } = useSWR([getMovies, filters], fetcherMovies);
     if (dataMovies?.error) return handleError(dataMovies.error);
     const movies = dataMovies?.movies ?? [];
+
+    const { data: dataFiltered } = useSWR([getFilteredMovies, filters], fetcherFilteredMovies);
+    if (dataFiltered?.error) return handleError(error);
+    const featuredMovies = dataFiltered?.filteredMovies.filter((e) => e.imdb.rating >= 8.5) ?? [];
+    const filteredMovies = dataFiltered?.filteredMovies.filter((e) => e.imdb.rating < 8.5 || !e.imdb) ?? [];
 
     const { data: dataFacets } = useSWR([getFacetsGenres], fetcherFacetsGenres);
     if (dataFacets?.error) return handleError(dataFacets.error);
@@ -134,13 +140,43 @@ export default function Home() {
                     setFilters={setFilters}
                 />
                 <Container>
-                    <Category
-                        title="Movie Search"
-                        subtitle={`${
-                            filteredMovies.length > 0 ? filteredMovies.length : movies.length
-                        } Movies`}
-                    />
-                    <Movies movies={filteredMovies.length > 0 ? filteredMovies : movies} />
+                    {featuredMovies.length > 0 && (
+                        <>
+                            <Category
+                                title="🍿 Featured on IMDB"
+                                subtitle={
+                                    featuredMovies.length === 1
+                                        ? `1 Movie`
+                                        : `${featuredMovies.length} Movies`
+                                }
+                            />
+                            <Movies movies={featuredMovies} />
+                        </>
+                    )}
+                    {filteredMovies.length > 0 && (
+                        <>
+                            <Category
+                                title="🔍 Movie Search Results"
+                                subtitle={
+                                    filteredMovies.length === 1
+                                        ? `1 Movie`
+                                        : `${filteredMovies.length} Movies`
+                                }
+                            />
+                            <Movies movies={filteredMovies} />
+                        </>
+                    )}
+                    {featuredMovies.length === 0 && filteredMovies.length === 0 && (
+                        <>
+                            <Category
+                                title="🎬 All Time Favorite Movies"
+                                subtitle={`${
+                                    filteredMovies.length > 0 ? filteredMovies.length : movies.length
+                                } Movies`}
+                            />
+                            <Movies movies={filteredMovies.length > 0 ? filteredMovies : movies} />
+                        </>
+                    )}
                 </Container>
                 <Footer />
             </div>

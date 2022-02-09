@@ -1,10 +1,10 @@
 [
     {
-        "name": "filteredMoviesResolver",
+        "name": "filteredMovies",
         "private": false
     },
     {
-        "name": "genresFacets",
+        "name": "facetsGenres",
         "private": false
     },
     {
