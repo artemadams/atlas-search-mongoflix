@@ -1,6 +1,6 @@
 {
     "field_name": "filteredMovies",
-    "function_name": "filteredMoviesResolver",
+    "function_name": "filteredMovies",
     "input_type": {
         "properties": {
             "countries": {
