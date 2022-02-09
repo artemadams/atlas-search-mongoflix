@@ -16,6 +16,8 @@ Open the project live on [StackBlitz](http://stackblitz.com/):
 
 Duplicate the file `.env.local.example-add-app-id-here` and name it: `.env.local`.
 You will need to change the `<APP_ID>` value to the app id of your MongoDB Realm app, which will be created at a later step.
+You have also to update the `NEXT_PUBLIC_REALM_BASE_URL` value if you have a different base URL for your MongoDB Realm app.
+This value will depend on the deployment region of your MongoDB Realm app.
 
 # Agenda
 
@@ -138,6 +140,10 @@ To create the app click **Create Realm Application**.
 
 ![Create Realm App Step 2](/docs/create-realm-app-config.png?raw=true "Create Realm App Step 2")
 
+_Hint:_ Now with the app created you can update the `.env.local` file to include the **App ID** value from your Realm app.
+
+![Copy Realm App ID](/docs/realm-app-id.png?raw=true "Copy Realm App ID")
+
 <a id="RealmActivateAnonymousAuthentication"></a>
 
 ### Realm Activate Anonymous Authentication
@@ -169,6 +175,10 @@ Click the **Review Draft & Deploy** button at the top of the page and **Deploy**
 ![Review Draft & Deploy](/docs/hint-review.png?raw=true "Review Draft & Deploy")
 
 ![Deploy](/docs/hint-review-deploy.png?raw=true "Deploy")
+
+_Hint:_ Now with the schema generated you can update the `.env.local` file to include the following base URL from your Realm app.
+
+![Copy Realm Base URL](/docs/realm-base-url.png?raw=true "Copy Realm Base URL")
 
 ---
 
@@ -589,7 +599,7 @@ exports = async (arg) => {
 
 On the left side bar of the Atlas UI, within **Build**, click **GraphQL**. Click the **Custom Resolvers** tab and click the **Add a Custom Resolver** button. For the **GraphQL Field Name** enter `facetsGenres`, for the **Parent Type** select **Query** and for the **Function Name** select the newly created function `facetsGenres`.
 
-We won't send input to this query and expect a list of custom objects representing the facets for each genre, containing the number of movies for each Genre.
+We won't send input to this query and expect a list of custom objects representing the facets for each genre, containing the number of movies for each genre.
 
 ![Create Facets Custom Resolver](/docs/create-func-facets-resolver.png?raw=true "Create Facets Custom Resolver")
 
@@ -652,11 +662,11 @@ Now with the facets setup test the app and open the dropdown for **Genres**. Not
 
 ## Realm Static Site Hosting
 
-**MongoDB Realm Hosting** allows you to host, manage, and serve your application's static media and document files. You can use Hosting to store individual pieces of content or to upload and serve your entire client application
+**MongoDB Realm Hosting** allows you to host, manage, and serve your application's static media and document files. You can use Hosting to store individual pieces of content or to upload and serve your entire client application.
 
-Our frontend app contains all the necessary calls to the GraphQL API on Realm. We can export the whole frontend app as a statci site and host it on MongoDB Realm.
+Our frontend app contains all the necessary calls to the GraphQL API on Realm. We can export the whole frontend app as a static site and host it on MongoDB Realm.
 
-For this you need to execute the follwing code in the root of the project.
+For this you need to execute the follwing code in the root folfder of the project.
 Make sure that you have the dependencies installed with.
 
 ```bash
@@ -669,7 +679,7 @@ and then build and export the site with next.
  next build && next export
 ```
 
-This will create a folder called `out` in the root of the project.
+This will create a folder called `out` in the root folder of the project.
 
 On the MongoDB Atlas UI on the **Realm** tab. On the left side bar of the Atlas UI, within **Manage**, click **Hosting**. Click the _Enable Hosting_ button. Drag and drop the contents of the folder `out` into the **Hosting** tab to upload all files.
 
