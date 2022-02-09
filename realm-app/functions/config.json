@@ -1,6 +1,6 @@
 [
     {
-        "name": "filteredMoviesResolver",
+        "name": "filteredMovies",
         "private": false
     },
     {
