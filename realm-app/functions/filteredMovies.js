@@ -71,6 +71,7 @@ exports = async (input) => {
                 year: 1,
                 genres: 1,
                 countries: 1,
+                imdb: 1,
                 score: { $meta: "searchScore" },
                 highlights: { $meta: "searchHighlights" },
             },
