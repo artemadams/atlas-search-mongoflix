@@ -86,6 +86,20 @@
                         }
                     }
                 },
+                "imdb": {
+                    "bsonType": "object",
+                    "properties": {
+                        "id": {
+                            "bsonType": "int"
+                        },
+                        "rating": {
+                            "bsonType": "double"
+                        },
+                        "votes": {
+                            "bsonType": "int"
+                        }
+                    }
+                },
                 "plot": {
                     "bsonType": "string"
                 },
@@ -100,20 +114,6 @@
                 },
                 "year": {
                     "bsonType": "int"
-                },
-                "imdb": {
-                    "bsonType": "object",
-                    "properties": {
-                        "id": {
-                            "bsonType": "int"
-                        },
-                        "rating": {
-                            "bsonType": "double"
-                        },
-                        "votes": {
-                            "bsonType": "int"
-                        }
-                    }
                 }
             }
         },
