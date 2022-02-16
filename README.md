@@ -10,6 +10,9 @@ MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/
 
 ## Code with us
 
+You can of course clone the repo and run the project locally `npm install && npm run build`.
+Alternatively, you can open the project in your browser without any installation required on your machine.
+
 Open the project live on [StackBlitz](http://stackblitz.com/):
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/artemadams/atlas-search-mongoflix)
@@ -166,7 +169,7 @@ On the left side bar of the Atlas UI, within **Data Access**, click **Rules**. *
 
 On the left side bar of the Atlas UI, within **Data Access**, click **Schema**. **Schema** defines the data structures and types for documents in each collection in the databases. Select the **movies** collection within the **sample_mflix** database. Click the generate schema button.
 Select just the **movies** collection, leave the samling size as default and click the **Generate Schema** button.
-This will also generate all the neccessary types and querries for a **GraphQL** schema. Which can be used immediately to access the data through the GraphQL endpoint managed by Realm.
+This will also generate all the neccessary types and queries for a **GraphQL** schema. Which can be used immediately to access the data through the GraphQL endpoint managed by Realm.
 
 ![Realm Generate Schema](/docs/create-schema-movies.png?raw=true "Realm Generate Schema")
 
@@ -242,7 +245,7 @@ Click the **Save Draft** button to save the function.
 
 ### Create Autocomplete Custom Resolver
 
-We want to use the autocomplete function in our GraphQL schema. To do this we need to create a custom resolver. Custom resolvers allow us to define custom querries and mutations for our GraphQL schema, backed by **Functions** created on Realm.
+We want to use the autocomplete function in our GraphQL schema. To do this we need to create a custom resolver. Custom resolvers allow us to define custom queries and mutations for our GraphQL schema, backed by **Functions** created on Realm.
 
 On the left side bar of the Atlas UI, within **Build**, click **GraphQL**. Click the **Custom Resolvers** tab and click the **Add a Custom Resolver** button. For the **GraphQL Field Name** enter `autocompleteTitle`, for the **Parent Type** select **Query** and for the **Function Name** select the newly created function `autocompleteTitle`.
 
@@ -272,7 +275,7 @@ Now with the first feature setup take the time to test the app, enter some movie
 
 ## Feature 2: Highlights and Scoring
 
-Now with the autocomplete function in place we can creat a new function for highlights and scoring. This function will return a list of movies that match the search term by the title, the genres selected and the country where a certain movie was produced.
+Now with the autocomplete function in place we can create a new function for highlights and scoring. This function will return a list of movies that match the search term by the title, the genres selected and the country where a certain movie was produced.
 Additionally, it will return highlights and search scores for the results. The highlights contain the exact substring within the title and the plot strings, containing the matched search term.
 This will allow us to highlight the found search terms within the frontend UI.
 
@@ -704,10 +707,10 @@ Make sure that you have the dependencies installed with.
  npm install
 ```
 
-and then build and export the site with next.
+and then build and export the site with an npm script using nextjs.
 
 ```bash
- next build && next export
+ npm run build && npm run export
 ```
 
 This will create a folder called `out` in the root folder of the project.
