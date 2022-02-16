@@ -548,20 +548,30 @@ In your cluster on **Atlas** in the **Search** tab, create a new index with the 
 
 ```json
 {
-    "mappings": {
-        "dynamic": true,
-        "fields": {
-            "title": [
-                {
-                    "dynamic": true,
-                    "type": "document"
-                },
-                {
-                    "type": "autocomplete"
-                }
-            ]
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "genres": [
+        {
+          "dynamic": true,
+          "type": "document"
+        },
+        {
+          "type": "stringFacet"
         }
+      ],
+      "year": [
+        {
+          "dynamic": true,
+          "type": "document"
+        },
+        {
+          "representation": "int64",
+          "type": "number"
+        }
+      ]
     }
+  }
 }
 ```
 
