@@ -62,7 +62,7 @@ If it is the first time you use Atlas you will need to create an organization an
 In the following dialog select **Shared** and click **Create**.
 The following screen will provide an interface to configure the cluster.
 
-If you choose a region other than Frankfurt you will need to update the endpoint in the app in `services/RealmService.js` to match the region.
+If you choose a region other than Frankfurt you will need to update the endpoint in the app in `.env.local` to match the region.
 
 Here are the settings for the cluster:
 
@@ -182,6 +182,21 @@ Click the **Review Draft & Deploy** button at the top of the page and **Deploy**
 _Hint:_ Now with the schema generated you can update the `.env.local` file to include the following base URL from your Realm app.
 
 ![Copy Realm Base URL](/docs/realm-base-url.png?raw=true "Copy Realm Base URL")
+
+Lets test how GraphQL actually works.
+In the **GraphQL** tab, within the GraphQL editor paste in the following code snippet to test the generated scheme.
+
+```json
+query {
+  movie(query: { title: "The Godfather" }) {
+    _id
+    title
+		metacritic
+		num_mflix_comments
+		fullplot
+  }
+}
+```
 
 ---
 
