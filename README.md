@@ -186,7 +186,7 @@ _Hint:_ Now with the schema generated you can update the `.env.local` file to in
 Lets test how GraphQL actually works.
 In the **GraphQL** tab, within the GraphQL editor paste in the following code snippet to test the generated scheme.
 
-```json
+```graphql
 query {
   movie(query: { title: "The Godfather" }) {
     _id
