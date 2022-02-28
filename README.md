@@ -191,9 +191,9 @@ query {
   movie(query: { title: "The Godfather" }) {
     _id
     title
-		metacritic
-		num_mflix_comments
-		fullplot
+    metacritic
+    num_mflix_comments
+    fullplot
   }
 }
 ```
