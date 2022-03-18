@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Link from "next/link";
+import { CodeIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { SearchIcon } from "@heroicons/react/outline";
 import { generateAuthHeader, REALM_GRAPHQL_ENDPOINT } from "../services/RealmService";
@@ -7,6 +8,8 @@ import useSWR from "swr";
 import { request } from "graphql-request";
 import Multiselect from "../components/Multiselect";
 import { handleError } from "/pages/index";
+import CodeModal from "./CodeModal";
+import { Dialog, Transition } from "@headlessui/react";
 
 const autocompleteTitle = `
     query GetAutocompleteTitle($title: String!) {
@@ -28,6 +31,9 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
     const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [focusedIndex, setFocusedIndex] = useState(0);
+
+    // modal
+    const [isOpen, setIsOpen] = useState(false);
 
     const { data } = useSWR([autocompleteTitle, searchTerm], fetcher);
     if (data?.error) return handleError(data.error);
@@ -90,7 +96,17 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                                 MongoFlix
                             </div>
                         </Link>
+
+                        <button
+                            className="z-10 p-2 rounded-full bg-green-600 text-white mx-5 -mb-4 hover:bg-green-500 focus:outline-none focus:bg-green-500"
+                            type="button"
+                            data-modal-toggle="defaultModal"
+                            onClick={() => setIsOpen(true)}
+                        >
+                            <CodeIcon className="w-5 h-5" />
+                        </button>
                     </div>
+                    <CodeModal isOpen={isOpen} setIsOpen={setIsOpen}></CodeModal>
 
                     <div className="relative mt-6 max-w-lg mx-auto">
                         <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -138,7 +154,6 @@ const Header = ({ genresWithCount, countries, filters, setFilters }) => {
                             </ul>
                         )}
                     </div>
-
                     <Multiselect
                         items={genresWithCount.map((e) => {
                             return { title: e._id, subtitle: e.count };
