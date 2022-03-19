@@ -1,5 +1,9 @@
 import React, { useState, Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Transition, Disclosure } from "@headlessui/react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { code } from "../services/exampleCode";
+import { ChevronUpIcon } from "@heroicons/react/outline";
 
 const CodeModal = ({ isOpen, setIsOpen }) => {
     function closeModal() {
@@ -42,18 +46,46 @@ const CodeModal = ({ isOpen, setIsOpen }) => {
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                        <div className="inline-block w-full max-w-4xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                             <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                                 Code Example
                             </Dialog.Title>
                             <div className="mt-2">
-                                <p className="text-sm text-gray-500">TODO</p>
+                                <p className="text-sm text-gray-500"></p>
+                                <Disclosure>
+                                    {({ open }) => (
+                                        <>
+                                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-green-900 bg-green-100 rounded-lg hover:bg-green-200 focus:outline-none focus-visible:ring focus-visible:ring-green-500 focus-visible:ring-opacity-75">
+                                                <span>Aggregation Pipeline</span>
+                                                <ChevronUpIcon
+                                                    className={`${
+                                                        open ? "transform rotate-180" : ""
+                                                    } w-5 h-5 text-green-500`}
+                                                />
+                                            </Disclosure.Button>
+                                            <Transition
+                                                enter="transition duration-200 ease-out"
+                                                enterFrom="transform origin-bottom scale-y-0 opacity-0"
+                                                enterTo="transform origin-top scale-y-100 opacity-100"
+                                                leave="transition duration-200 ease-out"
+                                                leaveFrom="transform origin-bottom scale-y-150 opacity-100"
+                                                leaveTo="transform origin-bottom scale-y-0 opacity-0"
+                                            >
+                                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+                                                    <SyntaxHighlighter language="javascript" style={dracula}>
+                                                        {code.autocomplete.aggregation}
+                                                    </SyntaxHighlighter>
+                                                </Disclosure.Panel>
+                                            </Transition>
+                                        </>
+                                    )}
+                                </Disclosure>
                             </div>
 
                             <div className="mt-4">
                                 <button
                                     type="button"
-                                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                    className="inline-flex float-right justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
                                     onClick={closeModal}
                                 >
                                     Done
