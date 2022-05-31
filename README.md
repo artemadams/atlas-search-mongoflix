@@ -715,7 +715,7 @@ Now with the facets setup test the app and open the dropdown for **Genres**. Not
 
 Our frontend app contains all the necessary calls to the GraphQL API on Realm. We can export the whole frontend app as a static site and host it on MongoDB Realm.
 
-For this you need to execute the follwing code in the root folfder of the project.
+For this you need to execute the following code in the root folder of the project.
 Make sure that you have the dependencies installed with.
 
 ```bash
