@@ -30,10 +30,10 @@ This value will depend on the deployment region of your MongoDB App Services app
 1. [Atlas Cluster](#AtlasCluster)
     1. [Load Sample Data](#LoadSampleData)
 1. [Atlas Search Index Creation](#AtlasSearchIndexCreation)
-1. [Create App Services App](#CreateApp ServicesApp)
-    1. [App Services Activate Anonymous Authentication](#App ServicesActivateAnonymousAuthentication)
-    1. [App Services Configure Access Rules](#App ServicesConfigureAccessRules)
-    1. [App Services Generate Schema](#App ServicesGenerateSchema)
+1. [Create App Services App](#CreateAppServicesApp)
+    1. [App Services Activate Anonymous Authentication](#AppServicesActivateAnonymousAuthentication)
+    1. [App Services Configure Access Rules](#AppServicesConfigureAccessRules)
+    1. [App Services Generate Schema](#AppServicesGenerateSchema)
 1. [Feature 1: Autocomplete](#Feature1Autocomplete)
     1. [Create Autocomplete Function](#CreateAutocompleteFunction)
     1. [Implement Autocomplete Function](#ImplementAutocompleteFunction)
@@ -47,7 +47,7 @@ This value will depend on the deployment region of your MongoDB App Services app
     1. [Create Facets Function](#CreateFacetsFunction)
     1. [Implement Facets Function](#ImplementFacetsFunction)
     1. [Create Facets Custom Resolver](#CreateFacetsCustomResolver)
-1. [App Services Static Site Hosting](#App ServicesStaticSiteHosting)
+1. [App Services Static Site Hosting](#AppServicesStaticSiteHosting)
 
 </details>
 
@@ -124,7 +124,7 @@ Enter the following querry to find all movies containing the text `time` in any 
 { "$search": { "text": "time travel" } }
 ```
 
-<a id="CreateApp ServicesApp"></a>
+<a id="CreateAppServicesApp"></a>
 
 ## Create App Services App
 
@@ -147,23 +147,23 @@ _Hint:_ Now with the app created you can update the `.env.local` file to include
 
 ![Copy App Services App ID](/docs/realm-app-id.png?raw=true "Copy App Services App ID")
 
-<a id="App ServicesActivateAnonymousAuthentication"></a>
+<a id="AppServicesActivateAnonymousAuthentication"></a>
 
 ### App Services Activate Anonymous Authentication
 
 On the left side bar of the Atlas UI, within **Data Access**, click **Authentication**. As you see **App Services** provides many authentication methods, we will use **Anonymous** for this demo. Click on the **Edit** button and set the checkbox to **ON** for this authentication method.
 
-![App Services Activate Anonymous Authentication](/docs/add-auth.png?raw=true "App Services Activate Anonymous Authentication")
+![App Services Activate Anonymous Authentication](/docs/add-auth.png?raw=true "AppServices Activate Anonymous Authentication")
 
-<a id="App ServicesConfigureAccessRules"></a>
+<a id="AppServicesConfigureAccessRules"></a>
 
 ### App Services Configure Access Rules
 
 On the left side bar of the Atlas UI, within **Data Access**, click **Rules**. **Rules** provide you many ways to limit and configure data access per collection and user role, deep down to the document level. For this demo we will allow all users to only `read` all documents in the movies colelction. **App Services** provides templates for many scenarios and we will use the **Users can only read all data** template.
 
-![App Services Configure Access Rules](/docs/add-rules-movies.png?raw=true "App Services Configure Access Rules")
+![App Services Configure Access Rules](/docs/add-rules-movies.png?raw=true "AppServices Configure Access Rules")
 
-<a id="App ServicesGenerateSchema"></a>
+<a id="AppServicesGenerateSchema"></a>
 
 ### App Services Generate Schema
 
@@ -171,7 +171,7 @@ On the left side bar of the Atlas UI, within **Data Access**, click **Schema**. 
 Select just the **movies** collection, leave the samling size as default and click the **Generate Schema** button.
 This will also generate all the neccessary types and queries for a **GraphQL** schema. Which can be used immediately to access the data through the GraphQL endpoint managed by App Services.
 
-![App Services Generate Schema](/docs/create-schema-movies.png?raw=true "App Services Generate Schema")
+![App Services Generate Schema](/docs/create-schema-movies.png?raw=true "AppServices Generate Schema")
 
 Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
 
@@ -707,7 +707,7 @@ Now with the facets setup test the app and open the dropdown for **Genres**. Not
 
 ---
 
-<a id="App ServicesStaticSiteHosting"></a>
+<a id="AppServicesStaticSiteHosting"></a>
 
 ## App Services Static Site Hosting
 
