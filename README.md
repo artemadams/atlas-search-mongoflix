@@ -1,12 +1,12 @@
 # Atlas Search Workshop
 
-MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/atlas/search), [MongoDB Realm](https://www.mongodb.com/realm), [GraphQL](https://docs.mongodb.com/realm/graphql/) and so much more.
+MongoFlix - interactive demo for [MongoDB Atlas Search](https://www.mongodb.com/atlas/search), [MongoDB App Services](https://www.mongodb.com/realm), [GraphQL](https://docs.mongodb.com/realm/graphql/) and so much more.
 
 ## Live Demo
 
 [This is what we will build!](https://atlas-search-mongoflix-git-prod-node-artemadams.vercel.app/)
 
-[Also available on Realm as a static site!](https://application-0-kjasg.mongodbstitch.com/)
+[Also available on App Services as a static site!](https://application-0-kjasg.mongodbstitch.com/)
 
 ## Code with us
 
@@ -18,9 +18,9 @@ Open the project live on [StackBlitz](http://stackblitz.com/):
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/artemadams/atlas-search-mongoflix)
 
 Duplicate the file `.env.local.example-add-app-id-here` and name it: `.env.local`.
-You will need to change the `<APP_ID>` value to the app id of your MongoDB Realm app, which will be created at a later step.
-You have also to update the `NEXT_PUBLIC_REALM_BASE_URL` value if you have a different base URL for your MongoDB Realm app.
-This value will depend on the deployment region of your MongoDB Realm app.
+You will need to change the `<APP_ID>` value to the app id of your MongoDB App Services app, which will be created at a later step.
+You have also to update the `NEXT_PUBLIC_REALM_BASE_URL` value if you have a different base URL for your MongoDB App Services app.
+This value will depend on the deployment region of your MongoDB App Services app.
 
 # Agenda
 
@@ -30,10 +30,10 @@ This value will depend on the deployment region of your MongoDB Realm app.
 1. [Atlas Cluster](#AtlasCluster)
     1. [Load Sample Data](#LoadSampleData)
 1. [Atlas Search Index Creation](#AtlasSearchIndexCreation)
-1. [Create Realm App](#CreateRealmApp)
-    1. [Realm Activate Anonymous Authentication](#RealmActivateAnonymousAuthentication)
-    1. [Realm Configure Access Rules](#RealmConfigureAccessRules)
-    1. [Realm Generate Schema](#RealmGenerateSchema)
+1. [Create App Services App](#CreateApp ServicesApp)
+    1. [App Services Activate Anonymous Authentication](#App ServicesActivateAnonymousAuthentication)
+    1. [App Services Configure Access Rules](#App ServicesConfigureAccessRules)
+    1. [App Services Generate Schema](#App ServicesGenerateSchema)
 1. [Feature 1: Autocomplete](#Feature1Autocomplete)
     1. [Create Autocomplete Function](#CreateAutocompleteFunction)
     1. [Implement Autocomplete Function](#ImplementAutocompleteFunction)
@@ -47,7 +47,7 @@ This value will depend on the deployment region of your MongoDB Realm app.
     1. [Create Facets Function](#CreateFacetsFunction)
     1. [Implement Facets Function](#ImplementFacetsFunction)
     1. [Create Facets Custom Resolver](#CreateFacetsCustomResolver)
-1. [Realm Static Site Hosting](#RealmStaticSiteHosting)
+1. [App Services Static Site Hosting](#App ServicesStaticSiteHosting)
 
 </details>
 
@@ -124,54 +124,54 @@ Enter the following querry to find all movies containing the text `time` in any 
 { "$search": { "text": "time travel" } }
 ```
 
-<a id="CreateRealmApp"></a>
+<a id="CreateApp ServicesApp"></a>
 
-## Create Realm App
+## Create App Services App
 
-In the **Atlas** UI click the **Realm** tab at the top. If you are using Realm for the first time, you will see a dialog with additonal instructions. You can safely select **Build your own App** it and click the **Next**.
+In the **Atlas** UI click the **App Services** tab at the top. If you are using App Services for the first time, you will see a dialog with additonal instructions. You can safely select **Build your own App** it and click the **Next**.
 The information should be populated automatically. Make sure to use the same name for simplicity.
 
-![Create Realm App Step 1](/docs/create-realm-app-welcome.png?raw=true "Create Realm App Step 1")
+![Create App Services App Step 1](/docs/create-realm-app-welcome.png?raw=true "Create App Services App Step 1")
 
-In the following dialog, setup the name of the Realm App, connect it to your newly created cluster and select a local (single region) deployment model. It should be preferable to use the region closest to your cluster region.
+In the following dialog, setup the name of the App Services App, connect it to your newly created cluster and select a local (single region) deployment model. It should be preferable to use the region closest to your cluster region.
 
 -   Name: Application-0
 -   Cluster: Cluster0
 -   Deployment Model: Local
 
-To create the app click **Create Realm Application**.
+To create the app click **Create App Services Application**.
 
-![Create Realm App Step 2](/docs/create-realm-app-config.png?raw=true "Create Realm App Step 2")
+![Create App Services App Step 2](/docs/create-realm-app-config.png?raw=true "Create App Services App Step 2")
 
-_Hint:_ Now with the app created you can update the `.env.local` file to include the **App ID** value from your Realm app.
+_Hint:_ Now with the app created you can update the `.env.local` file to include the **App ID** value from your App Services app.
 
-![Copy Realm App ID](/docs/realm-app-id.png?raw=true "Copy Realm App ID")
+![Copy App Services App ID](/docs/realm-app-id.png?raw=true "Copy App Services App ID")
 
-<a id="RealmActivateAnonymousAuthentication"></a>
+<a id="App ServicesActivateAnonymousAuthentication"></a>
 
-### Realm Activate Anonymous Authentication
+### App Services Activate Anonymous Authentication
 
-On the left side bar of the Atlas UI, within **Data Access**, click **Authentication**. As you see **Realm** provides many authentication methods, we will use **Anonymous** for this demo. Click on the **Edit** button and set the checkbox to **ON** for this authentication method.
+On the left side bar of the Atlas UI, within **Data Access**, click **Authentication**. As you see **App Services** provides many authentication methods, we will use **Anonymous** for this demo. Click on the **Edit** button and set the checkbox to **ON** for this authentication method.
 
-![Realm Activate Anonymous Authentication](/docs/add-auth.png?raw=true "Realm Activate Anonymous Authentication")
+![App Services Activate Anonymous Authentication](/docs/add-auth.png?raw=true "App Services Activate Anonymous Authentication")
 
-<a id="RealmConfigureAccessRules"></a>
+<a id="App ServicesConfigureAccessRules"></a>
 
-### Realm Configure Access Rules
+### App Services Configure Access Rules
 
-On the left side bar of the Atlas UI, within **Data Access**, click **Rules**. **Rules** provide you many ways to limit and configure data access per collection and user role, deep down to the document level. For this demo we will allow all users to only `read` all documents in the movies colelction. **Realm** provides templates for many scenarios and we will use the **Users can only read all data** template.
+On the left side bar of the Atlas UI, within **Data Access**, click **Rules**. **Rules** provide you many ways to limit and configure data access per collection and user role, deep down to the document level. For this demo we will allow all users to only `read` all documents in the movies colelction. **App Services** provides templates for many scenarios and we will use the **Users can only read all data** template.
 
-![Realm Configure Access Rules](/docs/add-rules-movies.png?raw=true "Realm Configure Access Rules")
+![App Services Configure Access Rules](/docs/add-rules-movies.png?raw=true "App Services Configure Access Rules")
 
-<a id="RealmGenerateSchema"></a>
+<a id="App ServicesGenerateSchema"></a>
 
-### Realm Generate Schema
+### App Services Generate Schema
 
 On the left side bar of the Atlas UI, within **Data Access**, click **Schema**. **Schema** defines the data structures and types for documents in each collection in the databases. Select the **movies** collection within the **sample_mflix** database. Click the generate schema button.
 Select just the **movies** collection, leave the samling size as default and click the **Generate Schema** button.
-This will also generate all the neccessary types and queries for a **GraphQL** schema. Which can be used immediately to access the data through the GraphQL endpoint managed by Realm.
+This will also generate all the neccessary types and queries for a **GraphQL** schema. Which can be used immediately to access the data through the GraphQL endpoint managed by App Services.
 
-![Realm Generate Schema](/docs/create-schema-movies.png?raw=true "Realm Generate Schema")
+![App Services Generate Schema](/docs/create-schema-movies.png?raw=true "App Services Generate Schema")
 
 Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
 
@@ -179,22 +179,22 @@ Click the **Review Draft & Deploy** button at the top of the page and **Deploy**
 
 ![Deploy](/docs/hint-review-deploy.png?raw=true "Deploy")
 
-_Hint:_ Now with the schema generated you can update the `.env.local` file to include the following base URL from your Realm app.
+_Hint:_ Now with the schema generated you can update the `.env.local` file to include the following base URL from your App Services app.
 
-![Copy Realm Base URL](/docs/realm-base-url.png?raw=true "Copy Realm Base URL")
+![Copy App Services Base URL](/docs/realm-base-url.png?raw=true "Copy App Services Base URL")
 
 Lets test how GraphQL actually works.
 In the **GraphQL** tab, within the GraphQL editor paste in the following code snippet to test the generated scheme.
 
 ```graphql
 query {
-  movie(query: { title: "The Godfather" }) {
-    _id
-    title
-    metacritic
-    num_mflix_comments
-    fullplot
-  }
+    movie(query: { title: "The Godfather" }) {
+        _id
+        title
+        metacritic
+        num_mflix_comments
+        fullplot
+    }
 }
 ```
 
@@ -211,7 +211,7 @@ For the first feature we will create a function that will return a list of movie
 
 ### Create Autocomplete Function
 
-On the left side bar of the Atlas UI, within **Build**, click **Functions**. **Functions** provide a way to execute serverside logic on **Realm** integrating data from the connected cluster. With the **Aggregation Framework** at your disposal you can create very powerful aggregations, even without a driver.
+On the left side bar of the Atlas UI, within **Build**, click **Functions**. **Functions** provide a way to execute serverside logic on **App Services** integrating data from the connected cluster. With the **Aggregation Framework** at your disposal you can create very powerful aggregations, even without a driver.
 
 Click the **Create New Function** button and enter `autocompleteTitle` as the name for the function.
 
@@ -260,7 +260,7 @@ Click the **Save Draft** button to save the function.
 
 ### Create Autocomplete Custom Resolver
 
-We want to use the autocomplete function in our GraphQL schema. To do this we need to create a custom resolver. Custom resolvers allow us to define custom queries and mutations for our GraphQL schema, backed by **Functions** created on Realm.
+We want to use the autocomplete function in our GraphQL schema. To do this we need to create a custom resolver. Custom resolvers allow us to define custom queries and mutations for our GraphQL schema, backed by **Functions** created on App Services.
 
 On the left side bar of the Atlas UI, within **Build**, click **GraphQL**. Click the **Custom Resolvers** tab and click the **Add a Custom Resolver** button. For the **GraphQL Field Name** enter `autocompleteTitle`, for the **Parent Type** select **Query** and for the **Function Name** select the newly created function `autocompleteTitle`.
 
@@ -566,30 +566,30 @@ In your cluster on **Atlas** in the **Search** tab, create a new index with the 
 
 ```json
 {
-  "mappings": {
-    "dynamic": false,
-    "fields": {
-      "genres": [
-        {
-          "dynamic": true,
-          "type": "document"
-        },
-        {
-          "type": "stringFacet"
+    "mappings": {
+        "dynamic": false,
+        "fields": {
+            "genres": [
+                {
+                    "dynamic": true,
+                    "type": "document"
+                },
+                {
+                    "type": "stringFacet"
+                }
+            ],
+            "year": [
+                {
+                    "dynamic": true,
+                    "type": "document"
+                },
+                {
+                    "representation": "int64",
+                    "type": "number"
+                }
+            ]
         }
-      ],
-      "year": [
-        {
-          "dynamic": true,
-          "type": "document"
-        },
-        {
-          "representation": "int64",
-          "type": "number"
-        }
-      ]
     }
-  }
 }
 ```
 
@@ -597,7 +597,7 @@ In your cluster on **Atlas** in the **Search** tab, create a new index with the 
 
 ### Create Facets Function
 
-Now with the index created, in the **Atlas** UI click the **Realm** tab. Click **Application-0** in the UI. On the left side bar of the Atlas UI, within **Build**, click **Functions**.
+Now with the index created, in the **Atlas** UI click the **App Services** tab. Click **Application-0** in the UI. On the left side bar of the Atlas UI, within **Build**, click **Functions**.
 Click the **Create New Function** button and enter `facetsGenres` as the name for the function.
 
 ![Create Facets Function](/docs/create-func-facets-config.png?raw=true "Create Facets Function")
@@ -707,13 +707,13 @@ Now with the facets setup test the app and open the dropdown for **Genres**. Not
 
 ---
 
-<a id="RealmStaticSiteHosting"></a>
+<a id="App ServicesStaticSiteHosting"></a>
 
-## Realm Static Site Hosting
+## App Services Static Site Hosting
 
-**MongoDB Realm Hosting** allows you to host, manage, and serve your application's static media and document files. You can use Hosting to store individual pieces of content or to upload and serve your entire client application.
+**MongoDB App Services Hosting** allows you to host, manage, and serve your application's static media and document files. You can use Hosting to store individual pieces of content or to upload and serve your entire client application.
 
-Our frontend app contains all the necessary calls to the GraphQL API on Realm. We can export the whole frontend app as a static site and host it on MongoDB Realm.
+Our frontend app contains all the necessary calls to the GraphQL API on App Services. We can export the whole frontend app as a static site and host it on MongoDB App Services.
 
 For this you need to execute the follwing code in the root folfder of the project.
 Make sure that you have the dependencies installed with.
@@ -730,7 +730,7 @@ and then build and export the site with an npm script using nextjs.
 
 This will create a folder called `out` in the root folder of the project.
 
-On the MongoDB Atlas UI on the **Realm** tab. On the left side bar of the Atlas UI, within **Manage**, click **Hosting**. Click the _Enable Hosting_ button. Drag and drop the contents of the folder `out` into the **Hosting** tab to upload all files.
+On the MongoDB Atlas UI on the **App Services** tab. On the left side bar of the Atlas UI, within **Manage**, click **Hosting**. Click the _Enable Hosting_ button. Drag and drop the contents of the folder `out` into the **Hosting** tab to upload all files.
 
 Click the **Review Draft & Deploy** button at the top of the page and **Deploy** your changes.
 
@@ -738,4 +738,4 @@ Click the **Review Draft & Deploy** button at the top of the page and **Deploy**
 
 ![Deploy](/docs/hint-review-deploy.png?raw=true "Deploy")
 
-Click now the **Settings** tab copy the **Realm Domain** paste it in a browser of your choice and press enter to view the site. 🎉
+Click now the **Settings** tab copy the **App Services Domain** paste it in a browser of your choice and press enter to view the site. 🎉
