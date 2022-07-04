@@ -31,9 +31,9 @@ This value will depend on the deployment region of your MongoDB App Services app
     1. [Load Sample Data](#LoadSampleData)
 1. [Atlas Search Index Creation](#AtlasSearchIndexCreation)
 1. [Create App Services App](#CreateApp ServicesApp)
-    1. [App Services Activate Anonymous Authentication](#App ServicesActivateAnonymousAuthentication)
-    1. [App Services Configure Access Rules](#App ServicesConfigureAccessRules)
-    1. [App Services Generate Schema](#App ServicesGenerateSchema)
+    1. [App Services Activate Anonymous Authentication](#AppServicesActivateAnonymousAuthentication)
+    1. [App Services Configure Access Rules](#AppServicesConfigureAccessRules)
+    1. [App Services Generate Schema](#AppServicesGenerateSchema)
 1. [Feature 1: Autocomplete](#Feature1Autocomplete)
     1. [Create Autocomplete Function](#CreateAutocompleteFunction)
     1. [Implement Autocomplete Function](#ImplementAutocompleteFunction)
@@ -47,7 +47,7 @@ This value will depend on the deployment region of your MongoDB App Services app
     1. [Create Facets Function](#CreateFacetsFunction)
     1. [Implement Facets Function](#ImplementFacetsFunction)
     1. [Create Facets Custom Resolver](#CreateFacetsCustomResolver)
-1. [App Services Static Site Hosting](#App ServicesStaticSiteHosting)
+1. [App Services Static Site Hosting](#AppServicesStaticSiteHosting)
 
 </details>
 
